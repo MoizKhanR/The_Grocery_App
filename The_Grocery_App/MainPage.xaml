@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="The_Grocery_App.MainPage">
+
+    <!--<ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">-->
+
+            <Grid RowDefinitions="Auto, Auto, Auto, *"
+                  ColumnDefinitions="*, Auto"
+                  RowSpacing="10"
+                  ColumnSpacing="10"
+                  Padding="10">
+
+                <!--<Image
+                Grid.Row="0"
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a submarine number ten" />-->
+
+                <!--<Label
+                Grid.Row="1"
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+                <Label
+                Grid.Row="2"
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App UI" />
+                <Entry Placeholder="Enter Something: "
+                       Grid.Row="0"
+                       />-->
+
+        <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                x:Name="CounterBtn"
+                Text="Add" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
+
+        <Entry Placeholder="ENTER:" 
+               Grid.Row="0"/>
+
+        <!--<CollectionView Grid.Row="2" Grid.Column="0">
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>JANABE</x:String>
+                    <x:String>AALOO</x:String>
+                    <x:String>LET</x:String>
+                    <x:String>US</x:String>
+                    <x:String>DO</x:String>
+                    <x:String>THIS</x:String>
+                    <x:String>THANG</x:String>
+                </x:Array>
+            </CollectionView.ItemsSource>
+        </CollectionView>-->
+
+
+        <CollectionView Grid.Row="1" Grid.Column="0"                   
+                        x:Name="Grocery_List_Collection_View"
+                        ItemsSource="{Binding UI_Grocery_List_Names}">
+                <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="1" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!--<Label Text="{Binding .}" />-->
+                    <Border Padding="3" Margin="0"
+                            BackgroundColor="{Binding BackColor}"
+                            Stroke="LightGray"
+                            StrokeThickness="1">
+                     <Label Text="{Binding UI_Name}"
+                            FontSize="18"
+                            FontAttributes="Bold"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <CollectionView Grid.Row="2" Grid.Column="0"                   
+                        x:Name="Recipes_List_Collection_View"
+                        ItemsSource="{Binding UI_Recipe_List_Names}">  
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" Orientation="Vertical" />
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!--<Label Text="{Binding .}" />-->
+                    <Border Padding="3" Margin="0"
+                    BackgroundColor="{Binding BackColor}"
+                    Stroke="LightGray"
+                    StrokeThickness="1">
+                        <Label Text="{Binding UI_Name}"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--<CollectionView Grid.Row="1" Grid.ColumnSpan="2" 
+                ItemsSource="{Binding Items}"></CollectionView>-->
+
+    </Grid>
+        <!--</VerticalStackLayout>
+    </ScrollView>-->
+
+</ContentPage>
