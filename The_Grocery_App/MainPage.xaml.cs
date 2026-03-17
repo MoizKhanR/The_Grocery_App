@@ -55,6 +55,17 @@ namespace The_Grocery_App
             UI_Grocery_List_Names.Add(new UIList { UI_Name = "Item #" + count.ToString()});
             count = count + 1;
 
+            //Display the action sheet to the user
+            string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+
+            //Handle the user's choice
+
+            if (action == "Add List")
+            {
+                await Shell.Current.GoToAsync(nameof(ShoppingListPage));
+            }
+
+
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
 

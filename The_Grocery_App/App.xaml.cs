@@ -6,7 +6,7 @@ namespace The_Grocery_App
     {
         public App()
         {
-            InitializeComponent();
+            InitializeComponent();         
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
