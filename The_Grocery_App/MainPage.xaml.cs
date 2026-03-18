@@ -8,10 +8,8 @@ namespace The_Grocery_App
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<UIList> UI_Grocery_List_Names { get; set; } = new();
-        public ObservableCollection<UIList> UI_Recipe_List_Names { get; set; } = new();
-
-        int count = 0;
+        public ObservableCollection<UIShoppingItem> UI_Grocery_List_Names { get; set; } = new();
+        public ObservableCollection<UIShoppingItem> UI_Recipe_List_Names { get; set; } = new();
 
         public MainPage()
         {
@@ -26,13 +24,17 @@ namespace The_Grocery_App
                 base.OnAppearing();
                 using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
                 
-                Globals.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
-                Globals.The_Master_Catalog = Populate_Grocery_Database(Globals.The_Doc); //XML stored inside memory variable
+                Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
+                Global.The_Master_Catalog = Populate_Grocery_Database(Global.The_Doc); //XML stored inside memory variable
 
-                //Populate Headers
 
-                UI_Grocery_List_Names.Add(new UIList { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen });
-                UI_Recipe_List_Names.Add(new UIList { UI_Name = "Recipes", BackColor = Colors.LawnGreen });
+                //Populate Headers (add exceptions so that they are not duplicated when navigating back and forth between pages)
+                if (UI_Grocery_List_Names.Any(x => x.UI_Name == "Shopping Lists") is false &&
+                    UI_Recipe_List_Names.Any(x => x.UI_Name == "Recipes") is false)
+                {
+                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                }
             }
             catch (Exception ex) 
             {
@@ -43,7 +45,7 @@ namespace The_Grocery_App
         private async void OnCounterClicked(object? sender, EventArgs e)
         {
 
-            //int count = Globals.The_Master_Catalog.Categories[5].Category_Items[1].Sizes.Count;          
+            int count = Global.The_Master_Catalog.Categories[5].Items[1].Sizes.Count;          
 
             //if (Globals.The_Doc != null)
             //{
@@ -52,7 +54,20 @@ namespace The_Grocery_App
             //    await DisplayAlertAsync("Items Count", count.ToString(), "OK");               
             //}  
             
-            UI_Grocery_List_Names.Add(new UIList { UI_Name = "Item #" + count.ToString()});
+            
+            List<string> list = new List<string>();
+            list.AddRange(  "YES",
+                            "NO",
+                            "MAYBE",
+                            "YOOO",
+                            "ALNA",
+                            "KULU",
+                            "BIG",
+                            "NOTORIOUS",
+                            "Solise",
+                            "Pineapple");
+
+            UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Item #" + count.ToString(), UI_Sizes = list });
             count = count + 1;
 
             //Display the action sheet to the user
@@ -198,7 +213,7 @@ namespace The_Grocery_App
                         }
 
                         //Add the Item Catalog to list of items inside the Categories Catalog
-                        Category_Catalog.Category_Items.Add(Items_Catalog);                     
+                        Category_Catalog.Items.Add(Items_Catalog);                     
                     }
 
                     //Add the Category Catalog to list of Categories inside the Master Catalog
@@ -209,13 +224,5 @@ namespace The_Grocery_App
             return The_Master_Catalog;
         }
 
-        //Global Variables
-        public static class Globals
-        {
-            public static XDocument? The_Doc;
-            public static XElement? The_Catalog;
-            public static Grocery The_Master_Catalog { get; set; } = new Grocery();
-            public static ObservableCollection<Grocery> The_Master_Catalog_Observable { get; set; } = new ObservableCollection<Grocery>();
-        }
     }
 }

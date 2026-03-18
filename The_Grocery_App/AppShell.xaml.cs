@@ -7,6 +7,7 @@
         {          
             InitializeComponent();
             Routing.RegisterRoute(nameof(ShoppingListPage), typeof(ShoppingListPage));
+            Routing.RegisterRoute(nameof(AddItemPage), typeof(AddItemPage));
         }
     }
 }
