@@ -8,8 +8,8 @@ namespace The_Grocery_App
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<UIList> UI_Grocery_List_Names { get; set; } = new();
-        public ObservableCollection<UIList> UI_Recipe_List_Names { get; set; } = new();
+        public ObservableCollection<UIShoppingItem> UI_Grocery_List_Names { get; set; } = new();
+        public ObservableCollection<UIShoppingItem> UI_Recipe_List_Names { get; set; } = new();
 
         int count = 0;
 
@@ -29,10 +29,14 @@ namespace The_Grocery_App
                 Globals.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
                 Globals.The_Master_Catalog = Populate_Grocery_Database(Globals.The_Doc); //XML stored inside memory variable
 
-                //Populate Headers
 
-                UI_Grocery_List_Names.Add(new UIList { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen });
-                UI_Recipe_List_Names.Add(new UIList { UI_Name = "Recipes", BackColor = Colors.LawnGreen });
+                //Populate Headers (add exceptions so that they are not duplicated when navigating back and forth between pages)
+                if (UI_Grocery_List_Names.Any(x => x.UI_Name == "Shopping Lists") is false &&
+                    UI_Recipe_List_Names.Any(x => x.UI_Name == "Recipes") is false)
+                {
+                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                }
             }
             catch (Exception ex) 
             {
@@ -52,18 +56,31 @@ namespace The_Grocery_App
             //    await DisplayAlertAsync("Items Count", count.ToString(), "OK");               
             //}  
             
-            UI_Grocery_List_Names.Add(new UIList { UI_Name = "Item #" + count.ToString()});
+            
+            List<string> list = new List<string>();
+            list.AddRange("YES",
+                              "NO",
+                              "MAYBE",
+                              "YOOO",
+                              "ALNA",
+                              "KULU",
+                              "BIG",
+                              "NOTORIOUS",
+                              "Solise",
+                              "Pineapple");
+
+            UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Item #" + count.ToString(), UI_Sizes = list });
             count = count + 1;
 
             //Display the action sheet to the user
-            string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+            //string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
 
             //Handle the user's choice
 
-            if (action == "Add List")
-            {
-                await Shell.Current.GoToAsync(nameof(ShoppingListPage));
-            }
+            //if (action == "Add List")
+            //{
+            //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
+            //}
 
 
             SemanticScreenReader.Announce(CounterBtn.Text);

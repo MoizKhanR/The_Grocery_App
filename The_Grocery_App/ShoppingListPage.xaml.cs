@@ -6,4 +6,10 @@ public partial class ShoppingListPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private async void OnSearchBarFocused(object sender, FocusEventArgs e)
+    {
+    //    ((SearchBar)sender).Unfocus(); //No keyboard needed, we will navigate to the AddItemPage
+    //    await Shell.Current.GoToAsync(nameof(AddItemPage));
+    }
 }

@@ -8,7 +8,6 @@ namespace The_Grocery_App
     {
         string name = "";
         List<Item> items = new List<Item>();
-
         public string Name { get => name; set => name = value; }
         public List<Item> Category_Items { get => items; set => items = value; }
     }
