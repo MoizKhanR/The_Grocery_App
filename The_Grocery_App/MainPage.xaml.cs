@@ -71,14 +71,14 @@ namespace The_Grocery_App
             count = count + 1;
 
             //Display the action sheet to the user
-            string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+            //string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
 
             //Handle the user's choice
 
-            if (action == "Add List")
-            {
-                await Shell.Current.GoToAsync(nameof(ShoppingListPage));
-            }
+            //if (action == "Add List")
+            //{
+            //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
+            //}
 
 
             SemanticScreenReader.Announce(CounterBtn.Text);

@@ -9,7 +9,7 @@ public partial class AddItemPage : ContentPage
     Dictionary<char, List<Item>> Items_By_Letter = new(); //A list whose indexes are basically characters,
                                                           //and each index contains a list of items that start with that character.
                                                           //This is for efficient searching.
-    public AddItemPage()
+	public AddItemPage()
 	{
 		InitializeComponent();
         BindingContext = this;
@@ -88,5 +88,5 @@ public partial class AddItemPage : ContentPage
         {
             DisplayAlertAsync("Error", $"Failed to perform search: {E.Message}", "OK");
         }
-    }
+	}
 }
