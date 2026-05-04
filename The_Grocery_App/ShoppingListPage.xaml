@@ -20,5 +20,66 @@
 
         <Button Text="Add Something..."
                 Clicked="OnSearchBarFocused" Background="#00FF52"/>
+
+        <CollectionView Grid.Row="1" Grid.Column="0"                   
+                x:Name="Grocery_List_Collection_View"
+                ItemsSource="{Binding Grouped_Items_Observable}"
+                IsGrouped="True">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding Category_Name}"
+                   BackgroundColor="#FCB100"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Padding="5"/>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                   Command="{Binding Delete_Command}"
+                                   BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Padding="3" Margin="0"
+                    BackgroundColor="{Binding BackColor}"
+                    Stroke="LightGray"
+                    StrokeThickness="1">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
+                                <Label Text="{Binding UI_Name}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="End"
+                               Grid.Column="0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Tap_Command}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Picker ItemsSource="{Binding UI_Sizes}"
+                                SelectedItem="{Binding Selected_Size}"
+                                IsVisible="{Binding Picker_Visibility}"
+                                VerticalOptions="Center"
+                                Grid.Column="1" />
+                                <Picker ItemsSource="{Binding UI_Quantities}"
+                                SelectedItem="{Binding Selected_Quantity}"
+                                IsVisible="{Binding Picker_Visibility}"
+                                VerticalOptions="Center"
+                                Grid.Column="2" />
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
     </Grid>
 </ContentPage>

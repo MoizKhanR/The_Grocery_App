@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Input;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace The_Grocery_App
 {
+    [QueryProperty(nameof(List_Name), "ListName")]
     public partial class MainPage : ContentPage
     {
         public ObservableCollection<UIShoppingItem> UI_Grocery_List_Names { get; set; } = new();
         public ObservableCollection<UIShoppingItem> UI_Recipe_List_Names { get; set; } = new();
+        public string List_Name { get; set; } = string.Empty;
 
         public MainPage()
         {
@@ -26,14 +29,23 @@ namespace The_Grocery_App
                 
                 Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
                 Global.The_Master_Catalog = Populate_Grocery_Database(Global.The_Doc); //XML stored inside memory variable
+                Global.Master_List = Populate_Item_Master_List(); //UIShoppingItem Master List is populated (used for searching items when adding to shopping lists)
 
-
+                //Save_ShoppingList_Names_XML(UI_Grocery_List_Names);
                 //Populate Headers (add exceptions so that they are not duplicated when navigating back and forth between pages)
                 if (UI_Grocery_List_Names.Any(x => x.UI_Name == "Shopping Lists") is false &&
                     UI_Recipe_List_Names.Any(x => x.UI_Name == "Recipes") is false)
                 {
                     UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen, Picker_Visibility = false });
                     UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                }
+
+                //Load the Shopping List from the XML file (if it exists)
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
+                
+                if(File.Exists(File_Path))
+                {
+                    Load_ShoppingList_Names_XML(File_Path, UI_Grocery_List_Names);
                 }
             }
             catch (Exception ex) 
@@ -44,47 +56,58 @@ namespace The_Grocery_App
 
         private async void OnCounterClicked(object? sender, EventArgs e)
         {
+            try
+            {
+                //Acquire the name of the shopping list from the entry field, if it is NULL, return
 
-            int count = Global.The_Master_Catalog.Categories[5].Items[1].Sizes.Count;          
+                if (Shopping_List_Name_Entry.Text == null || Shopping_List_Name_Entry.Text.Trim() == "")
+                {
+                    await DisplayAlertAsync("Invalid Name", "Please enter a valid name for the shopping list.", "OK");
+                    return;
+                }
 
-            //if (Globals.The_Doc != null)
-            //{
-            //    List<string?> Testes = Get_Item_Qualities(Globals.The_Doc, "Quinoa");
+                string Shopping_List_Name = Shopping_List_Name_Entry.Text; //Name acquired
 
-            //    await DisplayAlertAsync("Items Count", count.ToString(), "OK");               
-            //}  
-            
-            
-            List<string> list = new List<string>();
-            list.AddRange(  "YES",
-                            "NO",
-                            "MAYBE",
-                            "YOOO",
-                            "ALNA",
-                            "KULU",
-                            "BIG",
-                            "NOTORIOUS",
-                            "Solise",
-                            "Pineapple");
+                //Populate shopping names List
+                Global.Shopping_List_Names.Add(Shopping_List_Name); //Name added to the memory variable
 
-            UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Item #" + count.ToString(), UI_Sizes = list });
-            count = count + 1;
+                UI_Grocery_List_Names.Add(new UIShoppingItem
+                {
+                    UI_Name = Shopping_List_Name,
+                    Picker_Visibility = false
+                }); //Name added to the observable collection, which will automatically update the UI
+             
 
-            //Display the action sheet to the user
-            //string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+                //Generate the XML
+                Save_ShoppingList_Names_XML(UI_Grocery_List_Names); //Generate the XML file for the shopping list names (to be used for saving and loading)
 
-            //Handle the user's choice
+                //await DisplayAlertAsync("Alert", $"XML was successfully generated.", "OK");
 
-            //if (action == "Add List")
-            //{
-            //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
-            //}
+                Shopping_List_Name_Entry.Text = ""; //Clear the entry field after adding the shopping list name
+
+                //int count = Global.The_Master_Catalog.Categories[5].Items[1].Sizes.Count;          
+
+                
+                //Display the action sheet to the user
+                //string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+
+                //Handle the user's choice
+
+                //if (action == "Add List")
+                //{
+                //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
+                //}
 
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+                SemanticScreenReader.Announce(CounterBtn.Text);
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlertAsync("Error", $"Failed to add shopping list: {ex.Message}", "OK");
+            }
         }
 
-
+           
         //Get ALL Categories from the XDocument
         public List<string?> Get_Category_Names(XDocument The_Doc)
         {
@@ -203,6 +226,8 @@ namespace The_Grocery_App
                         if (Item_Name != null)
                         {
                             Items_Catalog.ItemName = Item_Name;
+                            Items_Catalog.ItemCategory = Category;
+
                             //These will be referenced, hence should be a new object each iteration
                             List<string?> Item_Qualities = new List<string?>(Get_Item_Qualities(The_Doc, Item_Name));
                             List<string?> Item_Sizes = new List<string?>(Get_Item_Sizes(The_Doc, Item_Name));
@@ -224,5 +249,90 @@ namespace The_Grocery_App
             return The_Master_Catalog;
         }
 
+        //Generate a SAVE file for the shopping list NAMES in XML format
+
+        public void Save_ShoppingList_Names_XML(ObservableCollection<UIShoppingItem> Shopping_List_Names)
+        {
+            try
+            {
+                XDocument Save_Doc = new XDocument(
+                        new XElement("ShoppingLists", 
+                            Shopping_List_Names.Where(item => item.UI_Name != null 
+                                                      && item.UI_Name != "Shopping Lists").Select(item => 
+                                new XElement("ShoppingList",
+                                  new XAttribute("name", item.UI_Name!)
+                                  )
+                                )
+                            )
+                        );
+
+                //Save the XML document to a file
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
+                //Shell.Current.CurrentPage.DisplayAlertAsync("XML",Save_Doc.ToString(), "OK");
+                Save_Doc.Save(File_Path);
+               
+
+            }
+            catch (Exception E)
+            {
+                Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to save data: {E.Message}", "OK");
+            }
+        }
+
+        public void Load_ShoppingList_Names_XML(string File_Path, ObservableCollection<UIShoppingItem> The_Observable_List)
+        {
+            try
+            {
+                XDocument? Load_Doc = XDocument.Load(File_Path);
+
+                var Doc_Root = Load_Doc?.Root;
+
+                if (Doc_Root is null)
+                {
+                    // nothing to load or malformed document
+                    return;
+                }
+
+                foreach(var Element in Doc_Root.Elements("ShoppingList"))
+                {
+                    string? Name = Element.Attribute("name")?.Value;
+
+                    if(Name != null && !The_Observable_List.Any(item => item.UI_Name == Name))
+                    {
+                        The_Observable_List.Add(new UIShoppingItem { UI_Name = Name, Picker_Visibility = false });
+                    }
+                }
+            
+            }
+            catch (Exception E)
+            {
+                Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to load data: {E.Message}", "OK");
+            }
+        }
+
+        //Populate the UIShoppingItem Master List
+
+        public List<UIShoppingItem> Populate_Item_Master_List()
+        {
+            List<UIShoppingItem> The_Master_List = new List<UIShoppingItem>();
+
+            foreach(var Category in Global.The_Master_Catalog.Categories)
+            {
+                foreach(var Item in Category.Items)
+                {              
+                    The_Master_List.Add(new UIShoppingItem
+                    {
+                        Category_Name = Category.Name,
+                        UI_Name = Item.ItemName,
+                        UI_Sizes = Item.Sizes.Where(size => size != null).Select(size => size!).ToList(),
+                        UI_Quantities = Item.Qualities.Where(quality => quality != null).Select(quality => quality!).ToList(),
+                        Picker_Visibility = false,
+                        BackColor = Colors.White
+                    });
+                }
+            }
+
+            return The_Master_List;
+        }
     }
 }

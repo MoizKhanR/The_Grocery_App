@@ -25,7 +25,8 @@
                     Clicked="OnCounterClicked"
                     HorizontalOptions="Fill" />
 
-             <Entry Placeholder="ENTER:" 
+            <Entry  x:Name="Shopping_List_Name_Entry"
+                    Placeholder="ENTER:" 
                     Grid.Row="0"/>
 
             <!--<CollectionView Grid.Row="2" Grid.Column="0">
@@ -51,18 +52,29 @@
                     </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <!--<Label Text="{Binding .}" />-->
-                    <Border Padding="3" Margin="0"
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                           Command="{Binding Delete_Command}"
+                                           BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Padding="3" Margin="0"
                             BackgroundColor="{Binding BackColor}"
                             Stroke="LightGray"
                             StrokeThickness="1">    
-                        <Grid ColumnDefinitions="*, Auto, Auto">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
                             <Label  Text="{Binding UI_Name}"
                                     FontSize="18"
                                     FontAttributes="Bold"
                                     VerticalOptions="End"
-                                    Grid.Column="0" />
+                                    Grid.Column="0">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Main_Tap_Command}" />
+                                </Label.GestureRecognizers>
+                            </Label>
                             <Picker ItemsSource="{Binding UI_Sizes}"
                                     SelectedItem="{Binding Selected_Size}"
                                     IsVisible = "{Binding Picker_Visibility}"
@@ -73,10 +85,11 @@
                                     IsVisible = "{Binding Picker_Visibility}"
                                     VerticalOptions="Center"
                                     Grid.Column="2" />
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
+                    </SwipeView>
                 </DataTemplate>
-                </CollectionView.ItemTemplate>
+            </CollectionView.ItemTemplate>
             </CollectionView>
 
         <CollectionView Grid.Row="2" Grid.Column="0"                   
