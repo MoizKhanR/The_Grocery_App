@@ -73,7 +73,7 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         //Now check to see if the Item_Name already exists in the Group, if it does, don't add it again
         bool? Item_Exists = Group?.Any(item => item.UI_Name == Item_Name) ?? false;
 
-        if (Item_Exists is false)
+        if (Item_Exists is false && Group is not null)
         {
             Group.Add(new UIShoppingItem
             {

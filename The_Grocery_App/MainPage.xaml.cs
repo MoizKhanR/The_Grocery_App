@@ -25,6 +25,7 @@ namespace The_Grocery_App
             try
             {
                 base.OnAppearing();
+                
                 using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
                 
                 Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
@@ -42,10 +43,11 @@ namespace The_Grocery_App
 
                 //Load the Shopping List from the XML file (if it exists)
                 string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
-                
-                if(File.Exists(File_Path))
+
+                if (File.Exists(File_Path))
                 {
                     Load_ShoppingList_Names_XML(File_Path, UI_Grocery_List_Names);
+                    //await DisplayAlertAsync("Test", "OnAppearing fired!", "OK");
                 }
             }
             catch (Exception ex) 
@@ -97,7 +99,6 @@ namespace The_Grocery_App
                 //{
                 //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
                 //}
-
 
                 SemanticScreenReader.Announce(CounterBtn.Text);
             }
@@ -270,7 +271,9 @@ namespace The_Grocery_App
                 string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
                 //Shell.Current.CurrentPage.DisplayAlertAsync("XML",Save_Doc.ToString(), "OK");
                 Save_Doc.Save(File_Path);
-               
+
+                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Path: {File_Path}", "OK");
+                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Exists: {File.Exists(File_Path)}", "OK");
 
             }
             catch (Exception E)
@@ -302,7 +305,10 @@ namespace The_Grocery_App
                         The_Observable_List.Add(new UIShoppingItem { UI_Name = Name, Picker_Visibility = false });
                     }
                 }
-            
+
+                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Path: {File_Path}", "OK");
+                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Exists: {File.Exists(File_Path)}", "OK");
+
             }
             catch (Exception E)
             {

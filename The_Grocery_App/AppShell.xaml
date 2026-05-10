@@ -11,4 +11,10 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <Shell.Resources>
+        <Style TargetType="Shell">
+            <Setter Property="Shell.ForegroundColor" Value="Black"/>
+        </Style>
+    </Shell.Resources>
+
 </Shell>
