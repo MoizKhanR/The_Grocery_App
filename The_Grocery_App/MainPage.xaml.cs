@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace The_Grocery_App
 {
-    [QueryProperty(nameof(List_Name), "ListName")]
+    
     public partial class MainPage : ContentPage
     {
         public ObservableCollection<UIShoppingItem> UI_Grocery_List_Names { get; set; } = new();
@@ -251,7 +251,6 @@ namespace The_Grocery_App
         }
 
         //Generate a SAVE file for the shopping list NAMES in XML format
-
         public void Save_ShoppingList_Names_XML(ObservableCollection<UIShoppingItem> Shopping_List_Names)
         {
             try
@@ -306,8 +305,6 @@ namespace The_Grocery_App
                     }
                 }
 
-                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Path: {File_Path}", "OK");
-                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Exists: {File.Exists(File_Path)}", "OK");
 
             }
             catch (Exception E)

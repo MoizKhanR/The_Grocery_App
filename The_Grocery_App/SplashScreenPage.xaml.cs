@@ -12,7 +12,7 @@ public partial class SplashScreenPage : ContentPage
 		base.OnAppearing();
 		await Task.Delay(2500); // Simulate loading time
 								
-		//Application.Current.MainPage = new AppShell();
+		//Open Main Page after 2.5 seconds of displaying the SplashScreenPage
 
 		if(Application.Current?.Windows.Count > 0) 
 		{

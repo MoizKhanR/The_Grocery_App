@@ -26,8 +26,23 @@ namespace The_Grocery_App
                 //string Page_Name = Shell.Current.CurrentPage.GetType().Name;
                 if (UI_Name != "Shopping Lists" && UI_Name != "Recipes")
                 {
+                    //Set the currently selected shopping list
+                    Global.Selected_Shopping_List = UI_Name;
+
+                    //Navigate to the shopping list page with the selected item as a query parameter
                     await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?Selected_Item={UI_Name}");
-                }                          
+                }
+
+                //Load the respective XML
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
+                ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
+
+                if (File.Exists(File_Path) && Shopping_List_Page is not null)
+                {
+                    Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
+                    Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
+                }
+
             }
             catch { }
         });
@@ -37,7 +52,18 @@ namespace The_Grocery_App
         {
             try
             {
+                //Navigate to the shopping list page with the selected item and category as query parameters
                 await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={UI_Name}&ItemCategory={Category_Name}");
+
+                //Load the respective XML
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
+                ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
+
+                if (File.Exists(File_Path) && Shopping_List_Page is not null)
+                {
+                    Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
+                    Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
+                }
 
             } catch { }
         });
