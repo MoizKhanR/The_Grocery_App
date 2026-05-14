@@ -37,8 +37,8 @@ namespace The_Grocery_App
                 if (UI_Grocery_List_Names.Any(x => x.UI_Name == "Shopping Lists") is false &&
                     UI_Recipe_List_Names.Any(x => x.UI_Name == "Recipes") is false)
                 {
-                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.LawnGreen, Picker_Visibility = false });
-                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.LawnGreen, Picker_Visibility = false });
+                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.ForestGreen, Picker_Visibility = false });
+                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.ForestGreen, Picker_Visibility = false });
                 }
 
                 //Load the Shopping List from the XML file (if it exists)

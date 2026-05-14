@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="The_Grocery_App.ShoppingListPage">
+             x:Class="The_Grocery_App.ShoppingListPage"
+             BackgroundColor="#F5F5E8">
 
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding Back_Command}"
-                            TextOverride="Lists"/>
-    </Shell.BackButtonBehavior>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Lists" Clicked="OnListsClicked"/>
+    </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *"
+    <Grid RowDefinitions="Auto, *, Auto, Auto"
           ColumnDefinitions="*, Auto"
           RowSpacing="10"
           ColumnSpacing="10"
           Padding="10">
 
-        <!--<Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />-->
-
-        <!--<SearchBar Placeholder="Add an item..."
-                   Focused="OnSearchBarFocused"/>-->
 
         <Button Text="Add Something..."
                 Clicked="OnSearchBarFocused" Background="#00FF52"/>
@@ -36,7 +29,7 @@
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <Label Text="{Binding Category_Name}"
-                   BackgroundColor="#FCB100"
+                   BackgroundColor="Goldenrod"
                    FontSize="18"
                    FontAttributes="Bold"
                    Padding="5"/>

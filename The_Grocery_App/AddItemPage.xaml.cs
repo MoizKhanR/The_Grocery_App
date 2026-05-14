@@ -35,7 +35,7 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
 
             //Populate the list of items by letter for efficient searching
 
-            foreach(Item item in Global.The_Master_Catalog.Categories.SelectMany(category => category.Items))
+            foreach(Item item in Global.The_Master_Catalog.Categories.SelectMany(Category => Category.Items))
             {
                 char First_Letter = char.ToUpper(item.ItemName[0]);
 
@@ -105,6 +105,8 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
         {
             List<UIShoppingItem> Deep_Results = new List<UIShoppingItem>();
 
+            int Limiter = 0;
+
             await Task.Run(() =>
             {
                 char[] Alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
@@ -118,20 +120,20 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
                             if (item.ItemName.Split(' ').Any(word => word.StartsWith(Search_Term, StringComparison.OrdinalIgnoreCase)))
                             {
                                 Deep_Results.Add(new UIShoppingItem { UI_Name = item.ItemName, Category_Name = item.ItemCategory });
+                                Limiter++;
                             }
+                            if(Limiter >= 30) //Limit the number of search results to prevent performance issues
+                            {
+                                break;
+                            }
+
+                            
                         }
                     }
                 }
             });
 
-            // Safe — back on main thread
-            //MainThread.BeginInvokeOnMainThread(() =>
-            //{
-            //    Searched_Results.Clear();
-            //    foreach (var result in Deep_Results)
-            //        Searched_Results.Add(result);
-            //});
-
+            
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 Searched_Results = new ObservableCollection<UIShoppingItem>(Deep_Results);

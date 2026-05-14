@@ -41,7 +41,11 @@ namespace The_Grocery_App
                 {
                     Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
                     Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
+                
                 }
+
+                //Update the Master List in the Global class via the Observable Collection
+                Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
 
             }
             catch { }
@@ -63,7 +67,11 @@ namespace The_Grocery_App
                 {
                     Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
                     Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
+                
                 }
+
+                //Update the Master List in the Global class via the Observable Collection
+                Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
 
             } catch { }
         });

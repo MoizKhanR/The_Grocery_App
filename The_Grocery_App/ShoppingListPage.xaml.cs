@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 using System.Xml.Linq;
 
 namespace The_Grocery_App;
@@ -36,36 +37,14 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
     }
     public ShoppingListPage()
 	{
-		InitializeComponent();
         BindingContext = this;
+        InitializeComponent();        
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        //await Task.Run(() =>
-        //{
-        //    string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
-
-        //    if (File.Exists(File_Path))
-        //    {
-        //        MainThread.BeginInvokeOnMainThread(() =>
-        //        {
-        //            Global.Grouped_Items_Master_List.Clear();
-        //            Grouped_Items_Observable.Clear();
-        //            Load_GroceryList_XML(File_Path, Grouped_Items_Observable);
-        //        });
-        //    }
-        //    else
-        //    {
-        //        MainThread.BeginInvokeOnMainThread(() =>
-        //        {
-        //            Global.Grouped_Items_Master_List.Clear();
-        //            Grouped_Items_Observable.Clear();
-        //        });
-        //    }
-        //});
     }
     private async void OnSearchBarFocused(object sender, EventArgs e)
     {
@@ -192,5 +171,17 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         {
             Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to load data: {E.Message}", "OK");
         }
+    }
+
+    //COMMANDS
+    private async void OnListsClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PopToRootAsync();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        _ = Shell.Current.Navigation.PopToRootAsync();
+        return true;
     }
 }
