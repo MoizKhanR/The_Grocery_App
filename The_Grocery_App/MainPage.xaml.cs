@@ -327,8 +327,8 @@ namespace The_Grocery_App
                     {
                         Category_Name = Category.Name,
                         UI_Name = Item.ItemName,
-                        UI_Sizes = Item.Sizes.Where(size => size != null).Select(size => size!).ToList(),
-                        UI_Quantities = Item.Qualities.Where(quality => quality != null).Select(quality => quality!).ToList(),
+                        UI_Sizes = new ObservableCollection<string>(Item.Sizes.Where(size => size != null).Select(size => size!)),
+                        UI_Qualities = new ObservableCollection<string>(Item.Qualities.Where(quality => quality != null).Select(quality => quality!)),
                         Picker_Visibility = false,
                         BackColor = Colors.White
                     });

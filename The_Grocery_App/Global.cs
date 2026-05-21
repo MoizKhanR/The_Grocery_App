@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml.Linq;
 
@@ -13,6 +14,22 @@ namespace The_Grocery_App
         public static List<string> Shopping_List_Names { get; set; } = new List<string>(); // This is the list of shopping list names that will be used to populate the UI. It can be loaded from an XML file or created from scratch.
         public static List<UIShoppingItem> Master_List { get; set; } = new List<UIShoppingItem>(); // Will contain a list of all items as well as the category they belong to
         public static List<CategoryGroup> Grouped_Items_Master_List { get; set; } = new List<CategoryGroup>(); // Will contain a list of all categories and the items that belong to them (Shopping List Page will use this to display the items in a grouped manner)
-        public static string? Selected_Shopping_List { get; set; } = string.Empty; // This is the selected shopping list name that will be used to name the XML of that shopping list after adding items to it.
+                                                                                                               //public static string? Selected_Shopping_List { get; set; } = string.Empty; // This is the selected shopping list name that will be used to name the XML of that shopping list after adding items to it.
+        private static string? _selected_Shopping_List;
+        public static string? Selected_Shopping_List
+        {
+            get => _selected_Shopping_List;
+            set
+            {
+                if (_selected_Shopping_List != value)
+                {
+                    _selected_Shopping_List = value;
+                    OnShoppingListChanged?.Invoke(value);
+                }
+            }
+        }
+
+        // The Event Handler to Detect Change
+        public static event Action<string?>? OnShoppingListChanged;
     }
 }

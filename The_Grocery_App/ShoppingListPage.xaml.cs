@@ -9,7 +9,12 @@ namespace The_Grocery_App;
 [QueryProperty(nameof(Item_Category), "ItemCategory")]
 public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
 {
+    
+
+  
     private string _item_Category = string.Empty;
+
+   
     public string Item_Category
     {
         get => _item_Category;
@@ -37,14 +42,27 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
     }
     public ShoppingListPage()
 	{
+        InitializeComponent();
         BindingContext = this;
-        InitializeComponent();        
+        Global.OnShoppingListChanged += OnListChanged;
+
     }
 
+    //Shopping list changes, we clear the Observable Collection
+    private void OnListChanged(string? newList)
+    {
+       Grouped_Items_Observable.Clear();
+    }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Global.OnShoppingListChanged -= OnListChanged;
     }
     private async void OnSearchBarFocused(object sender, EventArgs e)
     {
@@ -60,15 +78,15 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
     public void Add_Item_To_List()
     {
         if (string.IsNullOrEmpty(Item_Name) || string.IsNullOrEmpty(Item_Category)) return;
-        
+
         //Search the Master List for the Category Group, if it doesn't exist, create it and add it to the Master List
+        // Search the LIVE displayed collection for the Category Group; create it there if missing
         var Group = Global.Grouped_Items_Master_List.FirstOrDefault(g => g.Category_Name == Item_Category);
-        
+
         if (Group == null)
         {
-            
             Group = new CategoryGroup(Item_Category);
-            Global.Grouped_Items_Master_List.Add(Group);
+            Global.Grouped_Items_Master_List.Add(Group);   // add into what's on screen
         }
 
         //Now check to see if the Item_Name already exists in the Group, if it does, don't add it again
@@ -76,19 +94,36 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
 
         if (Item_Exists is false && Group is not null)
         {
-            Group.Add(new UIShoppingItem
+           
+            var Master_Item = Global.Master_List.FirstOrDefault(i => i.UI_Name == Item_Name);
+
+            var new_Item = new UIShoppingItem
             {
                 UI_Name = Item_Name,
-                Category_Name = Item_Category
-            });
+                UI_Sizes = new ObservableCollection<string>(Master_Item?.UI_Sizes ?? Enumerable.Empty<string>()),
+                UI_Qualities = new ObservableCollection<string>(Master_Item?.UI_Qualities ?? Enumerable.Empty<string>()),
+                Category_Name = Item_Category,
+                Picker_Visibility = true,
+            };
+            
+
+            //Item_Size_Mediator.Add(new_Item.UI_Sizes); // Add the ObservableCollection<string> to the mediator list
+
+            //Item_Size_Mediator = new ObservableCollection<string>(new_Item.UI_Sizes);
+            //DisplayAlertAsync("YES", new_Item.UI_Sizes.Count.ToString(), "OK");
+            Group.Add(new_Item);        
+
+
         }
 
         //Update the Grouped_Items_Observable collection to reflect the changes in the Master List
         Grouped_Items_Observable = new ObservableCollection<CategoryGroup>(Global.Grouped_Items_Master_List);
+        
 
         //Save the XML
         Save_GroceryList_XML(Grouped_Items_Observable);
     }
+
 
     //Save the list & name it as Global.Selected_Shopping_List + "_GroceryList" + ".xml"
     public void Save_GroceryList_XML(ObservableCollection<CategoryGroup> Grouped_Items_Observable)
@@ -110,7 +145,7 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                                     new XElement("Item",
                                         new XAttribute("name", item.UI_Name ?? ""),
                                         new XAttribute("size", item.Selected_Size ?? ""),
-                                        new XAttribute("quantity", item.Selected_Quantity ?? "")
+                                        new XAttribute("quality", item.Selected_Quality ?? "")
                                     )
                                 )
                             )
@@ -152,16 +187,21 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                 {
                     Group = new CategoryGroup(Category_Name);
                     Grouped_Items_Observable.Add(Group);
-                }
+                }                
 
                 // Add items to the group
                 foreach (var Item_Element in Category_Element.Elements("Item"))
                 {
+                    //Get the Item from the Master List to populate the Sizes and Qualities in the UIShoppingItem
+                    var Master_Item = Global.Master_List.FirstOrDefault(The_Item => The_Item.UI_Name == Item_Element.Attribute("name")?.Value);
+
                     Group.Add(new UIShoppingItem
                     {
                         UI_Name = Item_Element.Attribute("name")?.Value,
+                        UI_Sizes = new ObservableCollection<string>(Master_Item?.UI_Sizes ?? Enumerable.Empty<string>()),
+                        UI_Qualities = new ObservableCollection<string>(Master_Item?.UI_Qualities ?? Enumerable.Empty<string>()),
                         Selected_Size = Item_Element.Attribute("size")?.Value,
-                        Selected_Quantity = Item_Element.Attribute("quantity")?.Value,
+                        Selected_Quality = Item_Element.Attribute("quality")?.Value,
                         Category_Name = Category_Name
                     });
                 }

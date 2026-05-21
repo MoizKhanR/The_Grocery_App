@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using The_Grocery_App;
 
-namespace The_Grocery_App
+public class CategoryGroup : ObservableCollection<UIShoppingItem>
 {
-    public class CategoryGroup : ObservableCollection<UIShoppingItem>
-    {
-        public string? Category_Name { get; set; } = string.Empty;
+    // No need to declare INotifyPropertyChanged — ObservableCollection already has it
 
-        public CategoryGroup(string category_name) : base() //before a child can do anything, the parent needs to be fully set up first
+    private string? _category_Name = string.Empty;
+    public string? Category_Name
+    {
+        get => _category_Name;
+        set
         {
-            Category_Name = category_name;
+            _category_Name = value;
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Category_Name)));
         }
+    }
+
+    public CategoryGroup(string category_name) : base()
+    {
+        _category_Name = category_name;
     }
 }

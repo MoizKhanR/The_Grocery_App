@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using System.Xml.Linq;
 
 namespace The_Grocery_App
 {
-    public class UIShoppingItem
+    public class UIShoppingItem : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         public string? Category_Name { get; set; }
         public string? UI_Name { get; set; }
-        public List<string> UI_Sizes { get; set; } = new List<string>();
-        public List<string> UI_Quantities { get; set; } = new List<string>();
+        //public ObservableCollection<string> UI_Sizes { get; set; } = new ObservableCollection<string>();
+        //public ObservableCollection<string> UI_Qualities { get; set; } = new ObservableCollection<string>();
+        private ObservableCollection<string> _ui_Sizes = new();
+        public ObservableCollection<string> UI_Sizes
+        {
+            get => _ui_Sizes;
+            set { _ui_Sizes = value; OnPropertyChanged(); }
+        }
+
+        private ObservableCollection<string> _ui_Qualities = new();
+        public ObservableCollection<string> UI_Qualities
+        {
+            get => _ui_Qualities;
+            set { _ui_Qualities = value; OnPropertyChanged(); }
+        }
         public string? Selected_Size { get; set; }
-        public string? Selected_Quantity { get; set; }
+        public string? Selected_Quality { get; set; }
         public bool Picker_Visibility { get; set; } = true;
         public Color BackColor { get; set; } = Colors.Transparent;
 
@@ -39,7 +59,7 @@ namespace The_Grocery_App
 
                 if (File.Exists(File_Path) && Shopping_List_Page is not null)
                 {
-                    Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
+                    //Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
                     Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
                 
                 }
@@ -65,8 +85,8 @@ namespace The_Grocery_App
 
                 if (File.Exists(File_Path) && Shopping_List_Page is not null)
                 {
-                    Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
-                    Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
+                    //Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
+                    //Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
                 
                 }
 

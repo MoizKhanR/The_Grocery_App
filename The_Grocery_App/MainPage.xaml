@@ -80,8 +80,8 @@
                                     IsVisible = "{Binding Picker_Visibility}"
                                     VerticalOptions="Center"
                                     Grid.Column="1" />
-                            <Picker ItemsSource="{Binding UI_Quantities}"
-                                    SelectedItem="{Binding Selected_Quantity}"
+                            <Picker ItemsSource="{Binding UI_Qualities}"
+                                    SelectedItem="{Binding Selected_Quality}"
                                     IsVisible = "{Binding Picker_Visibility}"
                                     VerticalOptions="Center"
                                     Grid.Column="2" />
