@@ -18,7 +18,8 @@
 
 
         <Button Text="Add Something..."
-                Clicked="OnSearchBarFocused" Background="#00FF52"/>
+                Clicked="OnSearchBarFocused" 
+                Background="#00FF52"/>
 
         <CollectionView Grid.Row="1" Grid.Column="0"                   
                 x:Name="Grocery_List_Collection_View"

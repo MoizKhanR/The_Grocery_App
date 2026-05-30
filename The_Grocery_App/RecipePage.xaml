@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="The_Grocery_App.RecipePage"
+             Title="RecipePage"
+             BackgroundColor="#F5F5E8"
+             x:Name="this">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Lists" Clicked="OnListsClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid     RowDefinitions="Auto, Auto, Auto, *"
+              ColumnDefinitions="*, *, *, Auto"
+              RowSpacing="10"
+              ColumnSpacing="10"
+              Padding="10"> 
+
+
+        <Button Text="Add Items Manually" 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.RowSpan="1"
+                Grid.ColumnSpan="4"
+                Background="#00FF52"/>
+        <!--Clicked="OnSearchBarFocused" Background="#00FF52"/>-->
+
+        <Button Text="Generate Items List" 
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.RowSpan="1"
+                Grid.ColumnSpan="4"
+                Background="#00FFEB"/>
+
+        <Entry  x:Name="AI_Prompt_Entry"
+                Placeholder="Describe the recipe you want to create..." 
+                Grid.Column="0"
+                Grid.Row="2"
+                Grid.ColumnSpan="3"/>
+
+        <Button Grid.Row="2"
+                Grid.Column="3"
+                x:Name="Generate_Recipe_GO_Button"
+                Text="Go" 
+                SemanticProperties.Hint="Initialize recipe generation"
+                HorizontalOptions="Fill"
+                Grid.ColumnSpan="1"/>
+                <!-- Clicked="OnCounterClicked" -->
+                
+
+
+        <CollectionView Grid.Row="3" Grid.Column="0"                   
+                x:Name="Grocery_List_Collection_View"
+                ItemsSource="{Binding Grouped_Items_Observable}"
+                IsGrouped="True">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding Category_Name}"
+                   BackgroundColor="Goldenrod"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Padding="5"/>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                   Command="{Binding Delete_Command}"
+                                   BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Padding="3" Margin="0"
+                    BackgroundColor="{Binding BackColor}"
+                    Stroke="LightGray"
+                    StrokeThickness="1">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
+                                <Label Text="{Binding UI_Name}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="End"
+                               Grid.Column="0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Tap_Command}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Picker 
+                                ItemsSource="{Binding UI_Sizes}"
+                                SelectedItem="{Binding Selected_Size}"
+                                IsVisible="{Binding Picker_Visibility}"
+                                VerticalOptions="Center"
+                                Grid.Column="1"
+                                Title="Size">
+                                </Picker>
+                                <Label Text="{Binding UI_Sizes.Count}" 
+                                       FontSize="14" 
+                                       TextColor="Red"
+                                       Grid.Column="1" />
+                                <Picker ItemsSource="{Binding UI_Qualities}"
+                                SelectedItem="{Binding Selected_Quality}"
+                                IsVisible="{Binding Picker_Visibility}"
+                                VerticalOptions="Center"
+                                Grid.Column="2" />
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--- ItemsSource="{Binding Item_Size_Mediator, Source={x:Reference this}}" -->
+    </Grid>
+</ContentPage>

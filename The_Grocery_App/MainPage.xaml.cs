@@ -41,13 +41,18 @@ namespace The_Grocery_App
                     UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.ForestGreen, Picker_Visibility = false });
                 }
 
-                //Load the Shopping List from the XML file (if it exists)
-                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
+                //Load the Shopping/Recipe Lists from the XML file (if it exists)
+                string ShoppingList_File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
+                string RecipeList_File_Path = Path.Combine(FileSystem.AppDataDirectory, $"RecipeLists.xml");
 
-                if (File.Exists(File_Path))
+                if (File.Exists(ShoppingList_File_Path))
                 {
-                    Load_ShoppingList_Names_XML(File_Path, UI_Grocery_List_Names);
-                    //await DisplayAlertAsync("Test", "OnAppearing fired!", "OK");
+                    Load_ShoppingList_Names_XML(ShoppingList_File_Path, UI_Grocery_List_Names);                    
+                }
+
+                if (File.Exists(RecipeList_File_Path))
+                {
+                    Load_RecipeList_Names_XML(RecipeList_File_Path, UI_Recipe_List_Names);              
                 }
             }
             catch (Exception ex) 
@@ -62,43 +67,64 @@ namespace The_Grocery_App
             {
                 //Acquire the name of the shopping list from the entry field, if it is NULL, return
 
-                if (Shopping_List_Name_Entry.Text == null || Shopping_List_Name_Entry.Text.Trim() == "")
+                if (List_Name_Entry.Text == null || List_Name_Entry.Text.Trim() == "")
                 {
                     await DisplayAlertAsync("Invalid Name", "Please enter a valid name for the shopping list.", "OK");
                     return;
                 }
 
-                string Shopping_List_Name = Shopping_List_Name_Entry.Text; //Name acquired
-
-                //Populate shopping names List
-                Global.Shopping_List_Names.Add(Shopping_List_Name); //Name added to the memory variable
-
-                UI_Grocery_List_Names.Add(new UIShoppingItem
-                {
-                    UI_Name = Shopping_List_Name,
-                    Picker_Visibility = false
-                }); //Name added to the observable collection, which will automatically update the UI
-             
-
-                //Generate the XML
-                Save_ShoppingList_Names_XML(UI_Grocery_List_Names); //Generate the XML file for the shopping list names (to be used for saving and loading)
-
-                //await DisplayAlertAsync("Alert", $"XML was successfully generated.", "OK");
-
-                Shopping_List_Name_Entry.Text = ""; //Clear the entry field after adding the shopping list name
-
-                //int count = Global.The_Master_Catalog.Categories[5].Items[1].Sizes.Count;          
-
-                
                 //Display the action sheet to the user
-                //string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add List", "Add Recipe");
+                string action = await DisplayActionSheetAsync("Choose an option", "Cancel", null, "Add Shopping List", "Add Recipe");
 
                 //Handle the user's choice
 
-                //if (action == "Add List")
-                //{
-                //    await Shell.Current.GoToAsync(nameof(ShoppingListPage));
-                //}
+                if (action == "Add Shopping List")
+                {
+                    string Shopping_List_Name = List_Name_Entry.Text; //Name acquired
+
+                    //Populate shopping names List
+                    Global.Shopping_List_Names.Add(Shopping_List_Name); //Name added to the memory variable
+
+                    UI_Grocery_List_Names.Add(new UIShoppingItem
+                    {
+                        UI_Name = Shopping_List_Name,
+                        Picker_Visibility = false
+                    }); //Name added to the observable collection, which will automatically update the UI
+
+                    //Generate the XML
+                    Save_ShoppingList_Names_XML(UI_Grocery_List_Names); //Generate the XML file for the shopping list names (to be used for saving and loading)
+
+                    //await DisplayAlertAsync("Alert", $"XML was successfully generated.", "OK");
+                    List_Name_Entry.Text = ""; //Clear the entry field after adding the shopping list name
+
+                }
+                if (action == "Add Recipe")
+                {
+                    string Recipe_List_Name = List_Name_Entry.Text; //Name acquired
+
+                    //Populate shopping names List
+                    Global.Recipe_List_Names.Add(Recipe_List_Name); //Name added to the memory variable
+
+                    UI_Recipe_List_Names.Add(new UIShoppingItem
+                    {
+                        UI_Name = Recipe_List_Name,
+                        Picker_Visibility = false
+                    }); //Name added to the observable collection, which will automatically update the UI
+
+                    //Generate the XML
+                    Save_RecipeList_Names_XML(UI_Recipe_List_Names); //Generate the XML file for the recipe list names (to be used for saving and loading)
+
+                    //await DisplayAlertAsync("Alert", $"XML was successfully generated.", "OK");
+                    List_Name_Entry.Text = ""; //Clear the entry field after adding the recipe list name
+                }
+
+                
+                
+
+                //int count = Global.The_Master_Catalog.Categories[5].Items[1].Sizes.Count;          
+
+
+                
 
                 SemanticScreenReader.Announce(CounterBtn.Text);
             }
@@ -268,11 +294,8 @@ namespace The_Grocery_App
 
                 //Save the XML document to a file
                 string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"ShoppingLists.xml");
-                //Shell.Current.CurrentPage.DisplayAlertAsync("XML",Save_Doc.ToString(), "OK");
-                Save_Doc.Save(File_Path);
-
-                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Path: {File_Path}", "OK");
-                //Shell.Current.CurrentPage.DisplayAlertAsync("Message", $"File Exists: {File.Exists(File_Path)}", "OK");
+                
+                Save_Doc.Save(File_Path);          
 
             }
             catch (Exception E)
@@ -281,7 +304,7 @@ namespace The_Grocery_App
             }
         }
 
-        public void Load_ShoppingList_Names_XML(string File_Path, ObservableCollection<UIShoppingItem> The_Observable_List)
+        public void Load_ShoppingList_Names_XML(string File_Path, ObservableCollection<UIShoppingItem> Shopping_List_Names)
         {
             try
             {
@@ -299,9 +322,9 @@ namespace The_Grocery_App
                 {
                     string? Name = Element.Attribute("name")?.Value;
 
-                    if(Name != null && !The_Observable_List.Any(item => item.UI_Name == Name))
+                    if(Name != null && !Shopping_List_Names.Any(item => item.UI_Name == Name))
                     {
-                        The_Observable_List.Add(new UIShoppingItem { UI_Name = Name, Picker_Visibility = false });
+                        Shopping_List_Names.Add(new UIShoppingItem { UI_Name = Name, Picker_Visibility = false });
                     }
                 }
 
@@ -313,8 +336,66 @@ namespace The_Grocery_App
             }
         }
 
-        //Populate the UIShoppingItem Master List
+        //Generate a SAVE file for the shopping list NAMES in XML format
+        public void Save_RecipeList_Names_XML(ObservableCollection<UIShoppingItem> Recipe_List_Names)
+        {
+            try
+            {
+                XDocument Save_Doc = new XDocument(
+                        new XElement("RecipeLists",
+                            Recipe_List_Names.Where(item => item.UI_Name != null
+                                                      && item.UI_Name != "Recipe Lists").Select(item =>
+                                new XElement("RecipeList",
+                                  new XAttribute("name", item.UI_Name!)
+                                  )
+                                )
+                            )
+                        );
 
+                //Save the XML document to a file
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"RecipeLists.xml");
+
+                Save_Doc.Save(File_Path);
+
+            }
+            catch (Exception E)
+            {
+                Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to save data: {E.Message}", "OK");
+            }
+        }
+
+        public void Load_RecipeList_Names_XML(string File_Path, ObservableCollection<UIShoppingItem> Recipe_List_Names)
+        {
+            try
+            {
+                XDocument? Load_Doc = XDocument.Load(File_Path);
+
+                var Doc_Root = Load_Doc?.Root;
+
+                if (Doc_Root is null)
+                {
+                    // nothing to load or malformed document
+                    return;
+                }
+
+                foreach (var Element in Doc_Root.Elements("RecipeList"))
+                {
+                    string? Name = Element.Attribute("name")?.Value;
+
+                    if (Name != null && !Recipe_List_Names.Any(item => item.UI_Name == Name))
+                    {
+                        Recipe_List_Names.Add(new UIShoppingItem { UI_Name = Name, Picker_Visibility = false });
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to load data: {E.Message}", "OK");
+            }
+        }
+        //Populate the UIShoppingItem Master List
         public List<UIShoppingItem> Populate_Item_Master_List()
         {
             List<UIShoppingItem> The_Master_List = new List<UIShoppingItem>();

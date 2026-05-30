@@ -14,9 +14,12 @@
                   RowSpacing="10"
                   ColumnSpacing="10"
                   Padding="10">
-               
 
-             <Button
+        <Entry    x:Name="List_Name_Entry"
+                  Placeholder="ENTER:" 
+                  Grid.Row="0"/>
+
+        <Button
                     Grid.Row="0"
                     Grid.Column="1"
                     x:Name="CounterBtn"
@@ -25,26 +28,10 @@
                     Clicked="OnCounterClicked"
                     HorizontalOptions="Fill" />
 
-            <Entry  x:Name="Shopping_List_Name_Entry"
-                    Placeholder="ENTER:" 
-                    Grid.Row="0"/>
-
-            <!--<CollectionView Grid.Row="2" Grid.Column="0">
-                <CollectionView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>JANABE</x:String>
-                        <x:String>AALOO</x:String>
-                        <x:String>LET</x:String>
-                        <x:String>US</x:String>
-                        <x:String>DO</x:String>
-                        <x:String>THIS</x:String>
-                        <x:String>THANG</x:String>
-                    </x:Array>
-                </CollectionView.ItemsSource>
-            </CollectionView>-->
+             
 
 
-            <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"                  
+        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"                  
                             x:Name="Grocery_List_Collection_View"
                             ItemsSource="{Binding UI_Grocery_List_Names}">
                     <CollectionView.ItemsLayout>
@@ -72,10 +59,10 @@
                                     VerticalOptions="End"
                                     Grid.Column="0">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Main_Tap_Command}" />
+                                    <TapGestureRecognizer Command="{Binding Main_ShoppingList_Tap_Command}" />
                                 </Label.GestureRecognizers>
                             </Label>
-                            <Picker ItemsSource="{Binding UI_Sizes}"
+                           <!-- <Picker ItemsSource="{Binding UI_Sizes}"
                                     SelectedItem="{Binding Selected_Size}"
                                     IsVisible = "{Binding Picker_Visibility}"
                                     VerticalOptions="Center"
@@ -84,7 +71,7 @@
                                     SelectedItem="{Binding Selected_Quality}"
                                     IsVisible = "{Binding Picker_Visibility}"
                                     VerticalOptions="Center"
-                                    Grid.Column="2" />
+                                    Grid.Column="2" /> -->
                             </Grid>
                         </Border>
                     </SwipeView>
@@ -101,15 +88,41 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <!--<Label Text="{Binding .}" />-->
-                    <Border Padding="3" Margin="0"
-                        BackgroundColor="{Binding BackColor}"
-                        Stroke="LightGray"
-                        StrokeThickness="1">
-                        <Label Text="{Binding UI_Name}"
-                        FontSize="18"
-                        FontAttributes="Bold"/>
-                    </Border>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                Command="{Binding Delete_Command}"
+                                BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Padding="3" Margin="0"
+                         BackgroundColor="{Binding BackColor}"
+                         Stroke="LightGray"
+                         StrokeThickness="1">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
+                                <Label  Text="{Binding UI_Name}"
+                         FontSize="18"
+                         FontAttributes="Bold"
+                         VerticalOptions="End"
+                         Grid.Column="0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Main_Recipes_Tap_Command}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <!-- <Picker ItemsSource="{Binding UI_Sizes}"
+                                         SelectedItem="{Binding Selected_Size}"
+                                         IsVisible = "{Binding Picker_Visibility}"
+                                         VerticalOptions="Center"
+                                         Grid.Column="1" /> 
+                                <Picker ItemsSource="{Binding UI_Qualities}"
+                                         SelectedItem="{Binding Selected_Quality}"
+                                         IsVisible = "{Binding Picker_Visibility}"
+                                         VerticalOptions="Center"
+                                         Grid.Column="2" /> -->
+                            </Grid>
+                        </Border>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -51,7 +51,9 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
     //Shopping list changes, we clear the Observable Collection
     private void OnListChanged(string? newList)
     {
-       Grouped_Items_Observable.Clear();
+        //Save the XML before you leave foo
+        Save_GroceryList_XML(Grouped_Items_Observable);
+        Grouped_Items_Observable.Clear();
     }
     protected override async void OnAppearing()
     {
@@ -61,6 +63,8 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
 
     protected override void OnDisappearing()
     {
+        //Save the XML before you leave foo
+        Save_GroceryList_XML(Grouped_Items_Observable);
         base.OnDisappearing();
         Global.OnShoppingListChanged -= OnListChanged;
     }
@@ -107,10 +111,6 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
             };
             
 
-            //Item_Size_Mediator.Add(new_Item.UI_Sizes); // Add the ObservableCollection<string> to the mediator list
-
-            //Item_Size_Mediator = new ObservableCollection<string>(new_Item.UI_Sizes);
-            //DisplayAlertAsync("YES", new_Item.UI_Sizes.Count.ToString(), "OK");
             Group.Add(new_Item);        
 
 
