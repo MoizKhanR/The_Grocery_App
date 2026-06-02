@@ -32,8 +32,18 @@ namespace The_Grocery_App
             get => _ui_Qualities;
             set { _ui_Qualities = value; OnPropertyChanged(); }
         }
+
+        private ObservableCollection<string> _ui_Quantity =
+            new ObservableCollection<string>(Enumerable.Range(1, 100).Select(n => n.ToString()));
+
+        public ObservableCollection<string> UI_Quantity
+        {
+            get => _ui_Quantity;
+            set { _ui_Quantity = value; OnPropertyChanged(); }
+        }
         public string? Selected_Size { get; set; }
         public string? Selected_Quality { get; set; }
+        public string? Selected_Quantity { get; set; }
         public bool Picker_Visibility { get; set; } = true;
         public Color BackColor { get; set; } = Colors.Transparent;
 
@@ -86,7 +96,7 @@ namespace The_Grocery_App
                     await Shell.Current.GoToAsync($"{nameof(RecipePage)}?Selected_Item={UI_Name}");
                 }
             }
-            catch(Exception E)
+            catch(Exception)
             {}
         });
 
@@ -114,6 +124,7 @@ namespace The_Grocery_App
             //Delete "this" (It works because we are in the UIShoppingItem class)
             MainPage? Main_Page = Shell.Current.CurrentPage as MainPage;
             Main_Page?.UI_Grocery_List_Names.Remove(this);
+            Main_Page?.UI_Recipe_List_Names.Remove(this);
 
             //Save the new XML
             Main_Page?.Save_ShoppingList_Names_XML(Main_Page.UI_Grocery_List_Names);

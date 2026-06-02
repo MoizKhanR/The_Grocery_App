@@ -14,9 +14,16 @@ namespace The_Grocery_App
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+#if ANDROID
+            Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("CenterText", (handler, view) =>
+            {
+                handler.PlatformView.TextAlignment = Android.Views.TextAlignment.Center;
+                handler.PlatformView.Gravity = Android.Views.GravityFlags.Center;
+            });
+#endif
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

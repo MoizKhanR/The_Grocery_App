@@ -126,7 +126,6 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
                             {
                                 break;
                             }
-
                             
                         }
                     }
@@ -144,5 +143,21 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
         {
             await DisplayAlertAsync("Error", $"Failed to perform deep search: {E.Message}", "OK");
         }
+    }
+
+    private async void OnSearchBarSubmitted(object sender, EventArgs e)
+    {
+        string? customItem = ((SearchBar)sender).Text?.Trim();
+        if (string.IsNullOrWhiteSpace(customItem)) return;
+
+        var existsInCatalog = Global.Master_List.Any(i => i.UI_Name.Equals(customItem, StringComparison.OrdinalIgnoreCase));
+
+        if (existsInCatalog)
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={customItem}&ItemCategory=Uncategorized");
+
     }
 }

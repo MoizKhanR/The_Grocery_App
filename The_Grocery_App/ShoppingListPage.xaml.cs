@@ -9,9 +9,7 @@ namespace The_Grocery_App;
 [QueryProperty(nameof(Item_Category), "ItemCategory")]
 public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
 {
-    
-
-  
+      
     private string _item_Category = string.Empty;
 
    
@@ -84,7 +82,6 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         if (string.IsNullOrEmpty(Item_Name) || string.IsNullOrEmpty(Item_Category)) return;
 
         //Search the Master List for the Category Group, if it doesn't exist, create it and add it to the Master List
-        // Search the LIVE displayed collection for the Category Group; create it there if missing
         var Group = Global.Grouped_Items_Master_List.FirstOrDefault(g => g.Category_Name == Item_Category);
 
         if (Group == null)

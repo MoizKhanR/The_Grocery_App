@@ -20,7 +20,8 @@
                    Text="Search Items..."
                    Focused="SearchBarEngine"
                    x:Name="Items_Search_Bar"
-                   TextChanged="SearchBar_TextChanged"/>
+                   TextChanged="SearchBar_TextChanged"
+                   SearchButtonPressed="OnSearchBarSubmitted"/>
 
         <CollectionView Grid.Row="1" Grid.Column="0"                   
                 x:Name="Added_Items_Collection_View"

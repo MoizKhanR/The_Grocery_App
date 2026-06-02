@@ -49,37 +49,65 @@
                                    BackgroundColor="Red"/>
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3" Margin="0"
-                    BackgroundColor="{Binding BackColor}"
-                    Stroke="LightGray"
-                    StrokeThickness="1">
-                            <Grid ColumnDefinitions="*, Auto, Auto">
+                            <Border Padding="3" Margin="0"
+                                    BackgroundColor="{Binding BackColor}"
+                                    Stroke="LightGray"
+                                    StrokeThickness="1">
+                            <Grid ColumnDefinitions="*, Auto, Auto, Auto">
                                 <Label Text="{Binding UI_Name}"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               VerticalOptions="End"
-                               Grid.Column="0">
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="End"
+                                       Grid.Column="0">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Tap_Command}" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Picker 
-                                ItemsSource="{Binding UI_Sizes}"
-                                SelectedItem="{Binding Selected_Size}"
-                                IsVisible="{Binding Picker_Visibility}"
-                                VerticalOptions="Center"
-                                Grid.Column="1"
-                                Title="Size">
-                                </Picker>
-                                <Label Text="{Binding UI_Sizes.Count}" 
-                                       FontSize="14" 
-                                       TextColor="Red"
-                                       Grid.Column="1" />       
+                                <Label  Text="Quantity" 
+                                        FontSize="10" 
+                                        TextColor="Red"
+                                        Grid.Column="1" 
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0, 0, 0, 5"/>
+
+                                <Picker ItemsSource="{Binding UI_Quantity}"
+                                        SelectedItem="{Binding Selected_Quantity}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        VerticalOptions="Center"
+                                        Grid.Column="1"
+                                        Title="Select"
+                                        Margin="0, 5, 0, 0"/>
+
+                                <Label  Text="Size" 
+                                        FontSize="10" 
+                                        TextColor="Red"
+                                        Grid.Column="2"
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0, 0, 0, 5"/>          
+
+                                <Picker ItemsSource="{Binding UI_Sizes}"
+                                        SelectedItem="{Binding Selected_Size}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        VerticalOptions="Center"
+                                        Grid.Column="2"
+                                        Title="Select"
+                                        Margin="0, 5, 0, 0"/>
+
+                                <Label  Text="Quality" 
+                                        FontSize="10" 
+                                        TextColor="Red"
+                                        Grid.Column="3"
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0, 0, 0, 5"/>
+
                                 <Picker ItemsSource="{Binding UI_Qualities}"
-                                SelectedItem="{Binding Selected_Quality}"
-                                IsVisible="{Binding Picker_Visibility}"
-                                VerticalOptions="Center"
-                                Grid.Column="2" />
+                                        SelectedItem="{Binding Selected_Quality}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Grid.Column="3"
+                                        Title="Select"
+                                        Margin="0, 5, 0, 0"/>
                             </Grid>
                         </Border>
                     </SwipeView>
