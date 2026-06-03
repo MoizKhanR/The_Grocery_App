@@ -94,7 +94,7 @@ get the                         ingredients for the recipe as accurately as poss
                                 [{{""name"":""Chicken Breast"",""category"":""Poultry""}},{{""name"":""Yogurt"",""category"":""Dairy""}}]";
 
             // Call Gemini
-            var Google_AI = new GoogleAI(apiKey: "AQ.Ab8RN6IvfGg5mXPYhLUCAcq0DynfD5Lo0EgX34fHVqfoPUhgBw");
+            var Google_AI = new GoogleAI(apiKey: Secrets.Gemini_API_Key);
             var The_Model = Google_AI.GenerativeModel(model: "gemini-2.5-flash");
 
             var API_Task = The_Model.GenerateContent(The_Prompt);
