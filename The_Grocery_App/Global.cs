@@ -30,7 +30,24 @@ namespace The_Grocery_App
             }
         }
 
+        private static string? _selected_Recipe_List;
+        public static string? Selected_Recipe_List
+        {
+            get => _selected_Recipe_List;
+            set
+            {
+                if (_selected_Recipe_List != value)
+                {
+                    _selected_Recipe_List = value;
+                    OnRecipeListChanged?.Invoke(value);
+                }
+            }
+        }
         // The Event Handler to Detect Change
         public static event Action<string?>? OnShoppingListChanged;
+        public static event Action<string?>? OnRecipeListChanged;
+
+        //Track  the page you came from
+        public static string Came_From { get; set; } = string.Empty;
     }
 }

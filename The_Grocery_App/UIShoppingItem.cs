@@ -54,7 +54,7 @@ namespace The_Grocery_App
             try
             {
                 //string Page_Name = Shell.Current.CurrentPage.GetType().Name;
-                if (UI_Name != "Shopping Lists" && UI_Name != "Recipes")
+                if (UI_Name != "Shopping Lists")
                 {
                     //Set the currently selected shopping list
                     Global.Selected_Shopping_List = UI_Name;
@@ -87,17 +87,33 @@ namespace The_Grocery_App
             try
             {
                 //string Page_Name = Shell.Current.CurrentPage.GetType().Name;
-                if (UI_Name != "Shopping Lists" && UI_Name != "Recipes")
+                if (UI_Name != "Recipes")
                 {
-                    //Set the currently selected shopping list
-                    //Global.Selected_Shopping_List = UI_Name;
+                    //Set the currently selected recipe list
+                    Global.Selected_Recipe_List = UI_Name;             
 
                     //Navigate to the shopping list page with the selected item as a query parameter
                     await Shell.Current.GoToAsync($"{nameof(RecipePage)}?Selected_Item={UI_Name}");
                 }
+
+                //Load the respective XML
+                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Recipe_List}_RecipeList.xml");
+                RecipePage? Recipe_Page = Shell.Current.CurrentPage as RecipePage;
+
+                if (File.Exists(File_Path) && Recipe_Page is not null)
+                {
+                    //Recipe_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
+                    Recipe_Page.Load_RecipeList_XML(File_Path, Recipe_Page.Grouped_Items_Observable);
+
+                }
+
+                //Update the Master List in the Global class via the Observable Collection
+                Global.Grouped_Items_Master_List = Recipe_Page!.Grouped_Items_Observable.ToList();
             }
-            catch(Exception)
-            {}
+            catch(Exception E)
+            {
+                await Application.Current.MainPage.DisplayAlertAsync("Error", E.Message, "OK");
+            }
         });
 
         //AddItemPage's Tap Command - Navigate to the Shopping List Page with the selected item and category
@@ -105,16 +121,31 @@ namespace The_Grocery_App
         {
             try
             {
-                //Navigate to the shopping list page with the selected item and category as query parameters
-                await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={UI_Name}&ItemCategory={Category_Name}");
+                if (Global.Came_From == nameof(ShoppingListPage))
+                {
+                    //Navigate to the shopping list page with the selected item and category as query parameters
+                    await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={UI_Name}&ItemCategory={Category_Name}");
 
-                //Load the respective XML
-                string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
-                ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
+                    //Load the respective XML
+                    string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
+                    ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
 
-                //Update the Master List in the Global class via the Observable Collection
-                Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
+                    //Update the Master List in the Global class via the Observable Collection
+                    Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
+                }
 
+                if (Global.Came_From == nameof(RecipePage))
+                {
+                    //Navigate to the shopping list page with the selected item and category as query parameters
+                    await Shell.Current.GoToAsync($"{nameof(RecipePage)}?ItemName={UI_Name}&ItemCategory={Category_Name}");
+
+                    //Load the respective XML
+                    string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_RecipeList.xml");
+                    RecipePage? Recipe_Page = Shell.Current.CurrentPage as RecipePage;
+
+                    //Update the Master List in the Global class via the Observable Collection
+                    Global.Grouped_Items_Master_List = Recipe_Page!.Grouped_Items_Observable.ToList();
+                }
             } catch { }
         });
           

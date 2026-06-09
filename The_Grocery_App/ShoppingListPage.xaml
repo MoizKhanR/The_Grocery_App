@@ -18,7 +18,7 @@
 
 
         <Button Text="Add Something..."
-                Clicked="OnSearchBarFocused" 
+                Clicked="Add_Button_Clicked" 
                 Background="#00FF52"/>
 
         <CollectionView Grid.Row="1" Grid.Column="0"                   

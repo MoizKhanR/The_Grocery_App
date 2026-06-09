@@ -30,7 +30,7 @@ namespace The_Grocery_App
                 
                 Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
                 Global.The_Master_Catalog = Populate_Grocery_Database(Global.The_Doc); //XML stored inside memory variable
-                Global.Master_List = Populate_Item_Master_List(); //UIShoppingItem Master List is populated (used for searching items when adding to shopping lists)
+                Global.Master_List = Populate_Master_List(); //UIShoppingItem Master List is populated (used for searching items when adding to shopping lists)
 
                 //Save_ShoppingList_Names_XML(UI_Grocery_List_Names);
                 //Populate Headers (add exceptions so that they are not duplicated when navigating back and forth between pages)
@@ -396,7 +396,7 @@ namespace The_Grocery_App
             }
         }
         //Populate the UIShoppingItem Master List
-        public List<UIShoppingItem> Populate_Item_Master_List()
+        public List<UIShoppingItem> Populate_Master_List()
         {
             List<UIShoppingItem> The_Master_List = new List<UIShoppingItem>();
 
@@ -409,7 +409,7 @@ namespace The_Grocery_App
                         Category_Name = Category.Name,
                         UI_Name = Item.ItemName,
                         UI_Sizes = new ObservableCollection<string>(Item.Sizes.Where(size => size != null).Select(size => size!)),
-                        UI_Qualities = new ObservableCollection<string>(Item.Qualities.Where(quality => quality != null).Select(quality => quality!)),
+                        UI_Qualities = new ObservableCollection<string>(Item.Qualities.Where(quality => quality != null).Select(quality => quality!)),                 
                         Picker_Visibility = false,
                         BackColor = Colors.White
                     });

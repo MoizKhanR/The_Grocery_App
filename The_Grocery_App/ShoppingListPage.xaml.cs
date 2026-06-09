@@ -66,10 +66,13 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         base.OnDisappearing();
         Global.OnShoppingListChanged -= OnListChanged;
     }
-    private async void OnSearchBarFocused(object sender, EventArgs e)
+    private async void Add_Button_Clicked(object sender, EventArgs e)
     {
         try
         {
+            //Set the page we're "coming from" when we arrive at the AddItemPage
+            Global.Came_From = nameof(ShoppingListPage);
+
             //((SearchBar)sender).Unfocus(); //No keyboard needed, we will navigate to the AddItemPage
             await Shell.Current.GoToAsync(nameof(AddItemPage));
         } catch(Exception E) {
@@ -142,7 +145,8 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                                     new XElement("Item",
                                         new XAttribute("name", item.UI_Name ?? ""),
                                         new XAttribute("size", item.Selected_Size ?? ""),
-                                        new XAttribute("quality", item.Selected_Quality ?? "")
+                                        new XAttribute("quality", item.Selected_Quality ?? ""),
+                                        new XAttribute("quantity", item.Selected_Quantity ?? "")
                                     )
                                 )
                             )
@@ -199,6 +203,7 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                         UI_Qualities = new ObservableCollection<string>(Master_Item?.UI_Qualities ?? Enumerable.Empty<string>()),
                         Selected_Size = Item_Element.Attribute("size")?.Value,
                         Selected_Quality = Item_Element.Attribute("quality")?.Value,
+                        Selected_Quantity = Item_Element.Attribute("quantity")?.Value,
                         Category_Name = Category_Name
                     });
                 }

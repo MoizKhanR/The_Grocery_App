@@ -150,10 +150,15 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
         string? customItem = ((SearchBar)sender).Text?.Trim();
         if (string.IsNullOrWhiteSpace(customItem)) return;
 
-        var existsInCatalog = Global.Master_List.Any(i => i.UI_Name.Equals(customItem, StringComparison.OrdinalIgnoreCase));
+        var Matched_Item = Global.Master_List.FirstOrDefault(Item => Item.UI_Name!.Equals(customItem, StringComparison.OrdinalIgnoreCase));
 
-        if (existsInCatalog)
+
+        if (Matched_Item != null)
         {
+            string? Name = Matched_Item.UI_Name;
+            string? Category = Matched_Item.Category_Name;
+            await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={Name}&ItemCategory={Category}");
+
             return;
         }
 
