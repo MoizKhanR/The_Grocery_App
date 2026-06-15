@@ -90,7 +90,7 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         if (Group == null)
         {
             Group = new CategoryGroup(Item_Category);
-            Global.Grouped_Items_Master_List.Add(Group);   // add into what's on screen
+            Global.Grouped_Items_Master_List.Add(Group);   //add into what's on screen
         }
 
         //Now check to see if the Item_Name already exists in the Group, if it does, don't add it again
@@ -146,7 +146,8 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                                         new XAttribute("name", item.UI_Name ?? ""),
                                         new XAttribute("size", item.Selected_Size ?? ""),
                                         new XAttribute("quality", item.Selected_Quality ?? ""),
-                                        new XAttribute("quantity", item.Selected_Quantity ?? "")
+                                        new XAttribute("quantity", item.Selected_Quantity ?? ""),
+                                        new XAttribute("is_bought", item.Is_Bought.ToString() ?? "")
                                     )
                                 )
                             )
@@ -204,6 +205,7 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
                         Selected_Size = Item_Element.Attribute("size")?.Value,
                         Selected_Quality = Item_Element.Attribute("quality")?.Value,
                         Selected_Quantity = Item_Element.Attribute("quantity")?.Value,
+                        Is_Bought = bool.Parse(Item_Element.Attribute("is_bought")?.Value ?? "false"),
                         Category_Name = Category_Name
                     });
                 }

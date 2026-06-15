@@ -15,21 +15,19 @@
                   ColumnSpacing="10"
                   Padding="10">
 
-        <Entry    x:Name="List_Name_Entry"
+           <Entry x:Name="List_Name_Entry"
                   Placeholder="ENTER:" 
                   Grid.Row="0"/>
 
-        <Button
-                    Grid.Row="0"
+
+           <Button  Grid.Row="0"
                     Grid.Column="1"
                     x:Name="CounterBtn"
                     Text="Add" 
                     SemanticProperties.Hint="Counts the number of times you click"
                     Clicked="OnCounterClicked"
                     HorizontalOptions="Fill" />
-
              
-
 
         <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"                  
                             x:Name="Grocery_List_Collection_View"
@@ -44,7 +42,7 @@
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete" 
-                                           Command="{Binding Delete_Command}"
+                                           Command="{Binding Main_Shopping_Delete_Command}"
                                            BackgroundColor="Red"/>
                             </SwipeItems>
                         </SwipeView.RightItems>
@@ -92,7 +90,7 @@
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete" 
-                                Command="{Binding Delete_Command}"
+                                Command="{Binding Main_Recipe_Delete_Command}"
                                 BackgroundColor="Red"/>
                             </SwipeItems>
                         </SwipeView.RightItems>

@@ -147,22 +147,48 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
 
     private async void OnSearchBarSubmitted(object sender, EventArgs e)
     {
-        string? customItem = ((SearchBar)sender).Text?.Trim();
-        if (string.IsNullOrWhiteSpace(customItem)) return;
+        string? Custom_Item = ((SearchBar)sender).Text?.Trim();
 
-        var Matched_Item = Global.Master_List.FirstOrDefault(Item => Item.UI_Name!.Equals(customItem, StringComparison.OrdinalIgnoreCase));
-
-
-        if (Matched_Item != null)
+        if (string.IsNullOrWhiteSpace(Custom_Item))
         {
-            string? Name = Matched_Item.UI_Name;
-            string? Category = Matched_Item.Category_Name;
-            await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={Name}&ItemCategory={Category}");
-
             return;
         }
 
-        await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={customItem}&ItemCategory=Uncategorized");
+        var Matched_Item = Global.Master_List.FirstOrDefault(Item => Item.UI_Name!.Equals(Custom_Item, StringComparison.OrdinalIgnoreCase));
+
+        if (Matched_Item != null)
+        {
+            if(Global.Came_From == nameof(ShoppingListPage))
+            {
+                string? Name = Matched_Item.UI_Name;
+                string? Category = Matched_Item.Category_Name;
+                await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={Name}&ItemCategory={Category}");
+
+                return;
+            }
+
+            if (Global.Came_From == nameof(RecipePage))
+            {
+                string? Name = Matched_Item.UI_Name;
+                string? Category = Matched_Item.Category_Name;
+                await Shell.Current.GoToAsync($"{nameof(RecipePage)}?ItemName={Name}&ItemCategory={Category}");
+
+                return;
+            }
+
+        }
+
+        //If there was no match, simply send the ItemCategory as "Uncategorized" to the respective page
+
+        if(Global.Came_From == nameof(ShoppingListPage))
+        {
+            await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?ItemName={Custom_Item}&ItemCategory=Uncategorized");
+        }
+
+        if(Global.Came_From == nameof(RecipePage))
+        {
+            await Shell.Current.GoToAsync($"{nameof(RecipePage)}?ItemName={Custom_Item}&ItemCategory=Uncategorized");
+        }
 
     }
 }

@@ -305,7 +305,8 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
                                         new XAttribute("name", item.UI_Name ?? ""),
                                         new XAttribute("size", item.Selected_Size ?? ""),
                                         new XAttribute("quality", item.Selected_Quality ?? ""),
-                                        new XAttribute("quantity", item.Selected_Quantity ?? "")
+                                        new XAttribute("quantity", item.Selected_Quantity ?? ""),
+                                        new XAttribute("is_bought", item.Is_Bought.ToString() ?? "")
                                     )
                                 )
                             )
@@ -363,6 +364,7 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
                         Selected_Size = Item_Element.Attribute("size")?.Value,
                         Selected_Quality = Item_Element.Attribute("quality")?.Value,
                         Selected_Quantity = Item_Element.Attribute("quantity")?.Value,
+                        Is_Bought = bool.Parse(Item_Element.Attribute("is_bought")?.Value ?? "false"),
                         Category_Name = Category_Name
                     });
                 }

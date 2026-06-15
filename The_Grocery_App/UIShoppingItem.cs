@@ -48,6 +48,28 @@ namespace The_Grocery_App
         public Color BackColor { get; set; } = Colors.Transparent;
 
 
+        //Text Decorations
+        private bool _is_bought;
+        public bool Pickers_Enabled => !Is_Bought;
+        public bool Is_Bought
+        {
+            get => _is_bought;
+            set
+            {
+                _is_bought = value;
+                OnPropertyChanged();                        //Indicates to the UI "Is_Bought changed"
+                OnPropertyChanged(nameof(Item_Decoration)); //Indicates to the UI "the strikethrough changed too"
+                OnPropertyChanged(nameof(Pickers_Enabled)); //Disable the Pickers when the item is bought
+            }
+        }
+
+        public TextDecorations Item_Decoration =>
+            Is_Bought ? TextDecorations.Strikethrough : TextDecorations.None;
+
+
+
+
+
         //Main Page's Tap Command - Navigate to the Shopping List Page with the selected item
         public ICommand Main_ShoppingList_Tap_Command => new Command(async () =>
         {
@@ -71,7 +93,7 @@ namespace The_Grocery_App
                 {
                     //Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
                     Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
-                
+
                 }
 
                 //Update the Master List in the Global class via the Observable Collection
@@ -90,7 +112,7 @@ namespace The_Grocery_App
                 if (UI_Name != "Recipes")
                 {
                     //Set the currently selected recipe list
-                    Global.Selected_Recipe_List = UI_Name;             
+                    Global.Selected_Recipe_List = UI_Name;
 
                     //Navigate to the shopping list page with the selected item as a query parameter
                     await Shell.Current.GoToAsync($"{nameof(RecipePage)}?Selected_Item={UI_Name}");
@@ -110,9 +132,9 @@ namespace The_Grocery_App
                 //Update the Master List in the Global class via the Observable Collection
                 Global.Grouped_Items_Master_List = Recipe_Page!.Grouped_Items_Observable.ToList();
             }
-            catch(Exception E)
+            catch (Exception E)
             {
-                await Application.Current.MainPage.DisplayAlertAsync("Error", E.Message, "OK");
+                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", E.Message, "OK");
             }
         });
 
@@ -146,19 +168,100 @@ namespace The_Grocery_App
                     //Update the Master List in the Global class via the Observable Collection
                     Global.Grouped_Items_Master_List = Recipe_Page!.Grouped_Items_Observable.ToList();
                 }
-            } catch { }
+            }
+            catch { }
         });
-          
+
         //Delete an item from the shopping list
-        public ICommand Delete_Command => new Command(async () =>
+        public ICommand Main_Shopping_Delete_Command => new Command(async () =>
         {
             //Delete "this" (It works because we are in the UIShoppingItem class)
             MainPage? Main_Page = Shell.Current.CurrentPage as MainPage;
             Main_Page?.UI_Grocery_List_Names.Remove(this);
-            Main_Page?.UI_Recipe_List_Names.Remove(this);
+
+            //Delete the respective XML (GroceryList)
+            string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{this.UI_Name}_GroceryList.xml");
+
+            if (File.Exists(File_Path))
+            {
+                File.Delete(File_Path);
+                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Shopping list deleted!", "OK");
+            }
 
             //Save the new XML
             Main_Page?.Save_ShoppingList_Names_XML(Main_Page.UI_Grocery_List_Names);
+        });
+
+        //Delete an item from the recipe list
+        public ICommand Main_Recipe_Delete_Command => new Command(async () =>
+        {
+            //Delete "this" (It works because we are in the UIShoppingItem class)
+            MainPage? Main_Page = Shell.Current.CurrentPage as MainPage;
+            Main_Page?.UI_Recipe_List_Names.Remove(this);
+
+            //Delete the respective XML (RecipeList)
+            string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{this.UI_Name}_RecipeList.xml");
+
+            if (File.Exists(File_Path))
+            {
+                File.Delete(File_Path);
+                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Recipe list deleted!", "OK");
+            }
+
+            //Save the new XML
+            Main_Page?.Save_RecipeList_Names_XML(Main_Page.UI_Recipe_List_Names);
+        });
+
+        public ICommand Shopping_List_Delete_Command => new Command(async () =>
+        {
+            ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;         
+
+            var Group = Shopping_List_Page?.Grouped_Items_Observable
+                        .FirstOrDefault(g => g.Contains(this));
+
+            if(Group is null)
+            {
+                return;
+            }
+            else 
+            {
+                Group.Remove(this);
+            }
+                    
+
+            if (Group.Count == 0 && Shopping_List_Page is not null)
+            {
+                Shopping_List_Page.Grouped_Items_Observable.Remove(Group);                
+            }
+
+            Shopping_List_Page!.Save_GroceryList_XML(Shopping_List_Page.Grouped_Items_Observable);
+            Global.Grouped_Items_Master_List = Shopping_List_Page.Grouped_Items_Observable.ToList();
+        });
+
+        public ICommand Recipe_Delete_Command => new Command(async () =>
+        {
+            RecipePage? Recipe_Page = Shell.Current.CurrentPage as RecipePage;
+
+            var Group = Recipe_Page?.Grouped_Items_Observable
+                        .FirstOrDefault(g => g.Contains(this));
+
+            if (Group is null)
+            {
+                return;
+            }
+            else
+            {
+                Group.Remove(this);
+            }
+
+
+            if (Group.Count == 0 && Recipe_Page is not null)
+            {
+                Recipe_Page.Grouped_Items_Observable.Remove(Group);
+            }
+
+            Recipe_Page!.Save_RecipeList_XML(Recipe_Page.Grouped_Items_Observable);
+            Global.Grouped_Items_Master_List = Recipe_Page.Grouped_Items_Observable.ToList();
         });
     }
 }
