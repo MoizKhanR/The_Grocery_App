@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using Plugin.MauiMtAdmob;
 namespace The_Grocery_App
 {
     public static class MauiProgram
@@ -9,11 +9,16 @@ namespace The_Grocery_App
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiMTAdmob()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            // Enable debug logging via the global config property instead
+            CrossMauiMTAdmob.Current.DebugMode = true;
+
 #if ANDROID
             Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("CenterText", (handler, view) =>
             {

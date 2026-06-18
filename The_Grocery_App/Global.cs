@@ -49,5 +49,12 @@ namespace The_Grocery_App
 
         //Track  the page you came from
         public static string Came_From { get; set; } = string.Empty;
+
+        //Is Premium
+        public static bool Is_Premium
+        {
+            get => Preferences.Default.Get(nameof(Is_Premium), false);
+            set => Preferences.Default.Set(nameof(Is_Premium), value);
+        }
     }
 }

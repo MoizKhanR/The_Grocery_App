@@ -25,7 +25,19 @@ namespace The_Grocery_App
             try
             {
                 base.OnAppearing();
-                
+
+                bool Show_ADS_Foo = !Global.Is_Premium;
+                Banner.IsVisible = Show_ADS_Foo;
+
+                //If true then load
+                if (Show_ADS_Foo)
+                {
+                    Banner.LoadAd();
+                }
+
+
+
+
                 using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
                 
                 Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
@@ -59,6 +71,16 @@ namespace The_Grocery_App
             {
                 await DisplayAlertAsync("Error", $"Failed to load data: {ex.Message}", "OK");
             }
+        }
+
+        private async void Banner_AdFailedToLoad(object sender, EventArgs e)
+        {
+            await DisplayAlertAsync("AD FAILED", e?.ToString() ?? "null", "OK");
+        }
+
+        private async void Banner_AdLoaded(object sender, EventArgs e)
+        {
+            await DisplayAlertAsync("AD LOADED", "Success", "OK");
         }
 
         private async void OnCounterClicked(object? sender, EventArgs e)
