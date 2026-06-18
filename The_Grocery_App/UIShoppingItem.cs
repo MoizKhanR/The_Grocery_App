@@ -151,6 +151,7 @@ namespace The_Grocery_App
                     //Load the respective XML
                     string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
                     ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
+                    //Shopping_List_Page!.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
 
                     //Update the Master List in the Global class via the Observable Collection
                     Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
@@ -162,8 +163,9 @@ namespace The_Grocery_App
                     await Shell.Current.GoToAsync($"{nameof(RecipePage)}?ItemName={UI_Name}&ItemCategory={Category_Name}");
 
                     //Load the respective XML
-                    string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_RecipeList.xml");
+                    string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Recipe_List}_RecipeList.xml");
                     RecipePage? Recipe_Page = Shell.Current.CurrentPage as RecipePage;
+                    //Recipe_Page!.Load_RecipeList_XML(File_Path, Recipe_Page.Grouped_Items_Observable);
 
                     //Update the Master List in the Global class via the Observable Collection
                     Global.Grouped_Items_Master_List = Recipe_Page!.Grouped_Items_Observable.ToList();

@@ -4,13 +4,14 @@
              xmlns:local="clr-namespace:The_Grocery_App"
              x:Class="The_Grocery_App.ShoppingListPage"
              BackgroundColor="#F5F5E8"
-             x:Name="this">
+             x:Name="this"
+             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Lists" Clicked="OnListsClicked"/>
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto, *, Auto, Auto"
+    <Grid RowDefinitions="Auto, *, Auto, Auto, Auto"
           ColumnDefinitions="*, Auto"
           RowSpacing="10"
           ColumnSpacing="10"
@@ -123,5 +124,9 @@
         </CollectionView>
 
         <!--- ItemsSource="{Binding Item_Size_Mediator, Source={x:Reference this}}" -->
+
+        <!-- Ad Banner (via AdBanner ContentView XAML & Class) -->
+        <ctrls:AdBanner Grid.Row="2" />
+
     </Grid>
 </ContentPage>

@@ -111,8 +111,12 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
 
     private async void OnGoButtonClicked(object sender, EventArgs e)
     {
-        string userPrompt = AI_Prompt_Entry.Text;
-        if (string.IsNullOrWhiteSpace(userPrompt)) return;
+        string User_Prompt = AI_Prompt_Entry.Text;
+
+        if (string.IsNullOrWhiteSpace(User_Prompt))
+        {
+            return;
+        }
 
         Generate_Recipe_GO_Button.IsEnabled = false;
         Generate_Recipe_GO_Button.Text = "Generating...";
@@ -122,7 +126,7 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
             // Build the prompt with catalog context
             string The_Catalog_String = BuildCatalogPrompt();
             string The_Prompt = $@"You are a grocery list assistant. 
-                                The user wants to cook: {userPrompt}
+                                The user wants to cook: {User_Prompt}
 
                                 Here is my grocery catalog grouped by category:
                                 {The_Catalog_String}
@@ -199,6 +203,9 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
 
             }
 
+            //Keep the master in sync, like every other path does
+            Global.Grouped_Items_Master_List = Grouped_Items_Observable.ToList();
+
             //Save the XML
             Save_RecipeList_XML(Grouped_Items_Observable);
             //await DisplayAlertAsync("Done!", $"Added {recipeItems.Count} ingredients for your recipe!", "OK");
@@ -270,15 +277,12 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
                 Picker_Visibility = true,
             };
 
-
             Group.Add(new_Item);
-
 
         }
 
         //Update the Grouped_Items_Observable collection to reflect the changes in the Master List
         Grouped_Items_Observable = new ObservableCollection<CategoryGroup>(Global.Grouped_Items_Master_List);
-
 
         //Save the XML
         Save_RecipeList_XML(Grouped_Items_Observable);
