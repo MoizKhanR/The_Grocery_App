@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="The_Grocery_App.AddItemPage"
              Title="Add Items"
-             BackgroundColor="#F5F5E8">
+             BackgroundColor="#F5F5E8"
+             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
 
     <Grid RowDefinitions="Auto, Auto, Auto, *"
           ColumnDefinitions="*, Auto"
@@ -52,6 +53,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <!-- Ad Banner (via AdBanner ContentView XAML & Class) -->
+        <ctrls:AdBanner Grid.Row="2"/>
+                
 
     </Grid>
 </ContentPage>

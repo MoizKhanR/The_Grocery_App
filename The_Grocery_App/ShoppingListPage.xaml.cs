@@ -9,7 +9,7 @@ namespace The_Grocery_App;
 [QueryProperty(nameof(Item_Category), "ItemCategory")]
 public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
 {
-      
+    public string? Page_Name { get; set; } = Global.Selected_Shopping_List;
     private string _item_Category = string.Empty;
 
    

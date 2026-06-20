@@ -26,18 +26,6 @@ namespace The_Grocery_App
             {
                 base.OnAppearing();
 
-                bool Show_ADS_Foo = !Global.Is_Premium;
-                Banner.IsVisible = Show_ADS_Foo;
-
-                //If true then load
-                if (Show_ADS_Foo)
-                {
-                    Banner.LoadAd();
-                }
-
-
-
-
                 using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
                 
                 Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded

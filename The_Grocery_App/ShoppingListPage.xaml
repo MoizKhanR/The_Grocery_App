@@ -5,6 +5,7 @@
              x:Class="The_Grocery_App.ShoppingListPage"
              BackgroundColor="#F5F5E8"
              x:Name="this"
+             Title="{Binding Page_Name}"
              xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
 
     <ContentPage.ToolbarItems>

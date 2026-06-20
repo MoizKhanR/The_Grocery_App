@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="The_Grocery_App.MainPage"
              BackgroundColor="#F5F5E8"
-             xmlns:controls="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob">
+             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
 
 
 
@@ -111,15 +111,9 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- banner pinned to bottom -->
-
-        <controls:MTAdView  x:Name="Banner"
-                            Grid.Row="4"
-                            Grid.ColumnSpan="2"
-                            HeightRequest="180"
-                            VerticalOptions="End"
-                            AdsId="ca-app-pub-3940256099942544/6300978111"
-                            IsVisible="True"/>              
+        <!-- Ad Banner (via AdBanner ContentView XAML & Class) -->
+        <ctrls:AdBanner Grid.Row="4"
+                Grid.ColumnSpan="4"/>
 
     </Grid>
         <!--</VerticalStackLayout>

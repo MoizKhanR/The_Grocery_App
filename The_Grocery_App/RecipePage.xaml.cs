@@ -12,7 +12,7 @@ using System.Xml.Linq;
 public partial class RecipePage : ContentPage, INotifyPropertyChanged
 {
     private string _item_Category = string.Empty;
-
+    public string? Page_Name { get; set; } = Global.Selected_Recipe_List;
     public string Item_Category
     {
         get => _item_Category;

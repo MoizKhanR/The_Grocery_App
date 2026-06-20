@@ -6,6 +6,10 @@ namespace The_Grocery_App;
 
 public partial class AddItemPage : ContentPage, INotifyPropertyChanged
 {
+    //Maximum number of search results to display to prevent performance issue
+    
+    const int Max_Search_Results = 15;
+
     //Set the observable collection with a backing field to notify the UI when the collection changes
     private ObservableCollection<UIShoppingItem> _searched_results { get; set; } = new();
     public ObservableCollection<UIShoppingItem> Searched_Results
@@ -135,7 +139,7 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
             
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                Searched_Results = new ObservableCollection<UIShoppingItem>(Deep_Results);
+                Searched_Results = new ObservableCollection<UIShoppingItem>(Deep_Results.Take(Max_Search_Results));
                 OnPropertyChanged(nameof(Searched_Results));
             });
         }
