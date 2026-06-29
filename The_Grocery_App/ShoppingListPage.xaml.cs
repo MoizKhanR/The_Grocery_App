@@ -228,4 +228,8 @@ public partial class ShoppingListPage : ContentPage, INotifyPropertyChanged
         _ = Shell.Current.Navigation.PopToRootAsync();
         return true;
     }
+    async void OnHelpClicked(object? sender, EventArgs e)
+    {
+        await HelpInfo.Show(this);
+    }
 }

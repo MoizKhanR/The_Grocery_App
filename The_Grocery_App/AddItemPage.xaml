@@ -6,6 +6,10 @@
              Title="Add Items"
              BackgroundColor="#F5F5E8">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="?" Clicked="OnHelpClicked" />
+    </ContentPage.ToolbarItems>
+
     <Grid RowDefinitions="Auto, Auto, Auto, *"
           ColumnDefinitions="*, Auto"
           RowSpacing="10"

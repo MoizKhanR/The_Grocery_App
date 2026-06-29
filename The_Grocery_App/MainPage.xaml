@@ -5,6 +5,14 @@
              x:Class="The_Grocery_App.MainPage"
              BackgroundColor="#F5F5E8">
 
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="?" Clicked="OnHelpClicked" />
+    </ContentPage.ToolbarItems>-->
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="help.png" Clicked="OnHelpClicked" />
+    </ContentPage.ToolbarItems>
+
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, 80"
           ColumnDefinitions="*, Auto"
           RowSpacing="10"
@@ -59,7 +67,7 @@
                                 <Label Grid.Column="0"
                                        Text="{Binding UI_Name}"
                                        FontSize="18"
-                                       FontAttributes="Bold"
+                                       FontAttributes="{Binding Item_Font_Attributes}"
                                        VerticalOptions="End">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Main_ShoppingList_Tap_Command}" />
@@ -100,7 +108,7 @@
                                 <Label Grid.Column="0"
                                        Text="{Binding UI_Name}"
                                        FontSize="18"
-                                       FontAttributes="Bold"
+                                       FontAttributes="{Binding Item_Font_Attributes}"
                                        VerticalOptions="End">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Main_Recipes_Tap_Command}" />

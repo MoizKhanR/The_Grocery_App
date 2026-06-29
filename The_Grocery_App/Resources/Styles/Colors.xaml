@@ -41,4 +41,14 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+    <!-- Mama's Grocery brand palette (refined) -->
+    <Color x:Key="Cream">#F5F1E8</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="Hairline">#E7E2D6</Color>
+    <Color x:Key="HeaderGreen">#2F8F4E</Color>
+    <Color x:Key="ActionGreen">#34C759</Color>
+    <Color x:Key="ActionTeal">#30B0C7</Color>
+    <Color x:Key="GoldPro">#F4B400</Color>
+    <Color x:Key="InkText">#1C2024</Color>
 </ResourceDictionary>

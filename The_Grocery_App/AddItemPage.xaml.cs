@@ -195,4 +195,9 @@ public partial class AddItemPage : ContentPage, INotifyPropertyChanged
         }
 
     }
+
+    async void OnHelpClicked(object? sender, EventArgs e)
+    {
+        await HelpInfo.Show(this);
+    }
 }

@@ -37,8 +37,8 @@ namespace The_Grocery_App
                 if (UI_Grocery_List_Names.Any(x => x.UI_Name == "Shopping Lists") is false &&
                     UI_Recipe_List_Names.Any(x => x.UI_Name == "Recipes") is false)
                 {
-                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.ForestGreen, Picker_Visibility = false });
-                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.ForestGreen, Picker_Visibility = false });
+                    UI_Grocery_List_Names.Add(new UIShoppingItem { UI_Name = "Shopping Lists", BackColor = Colors.ForestGreen, Picker_Visibility = false, Item_Font_Attributes = FontAttributes.Bold });
+                    UI_Recipe_List_Names.Add(new UIShoppingItem { UI_Name = "Recipes", BackColor = Colors.ForestGreen, Picker_Visibility = false, Item_Font_Attributes = FontAttributes.Bold });
                 }
 
                 //Load the Shopping/Recipe Lists from the XML file (if it exists)
@@ -427,6 +427,11 @@ namespace The_Grocery_App
             }
 
             return The_Master_List;
+        }
+
+        async void OnHelpClicked(object? sender, EventArgs e)
+        {
+            await HelpInfo.Show(this);
         }
     }
 }

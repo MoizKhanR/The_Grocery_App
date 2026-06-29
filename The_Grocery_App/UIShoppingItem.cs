@@ -17,8 +17,7 @@ namespace The_Grocery_App
 
         public string? Category_Name { get; set; }
         public string? UI_Name { get; set; }
-        //public ObservableCollection<string> UI_Sizes { get; set; } = new ObservableCollection<string>();
-        //public ObservableCollection<string> UI_Qualities { get; set; } = new ObservableCollection<string>();
+       
         private ObservableCollection<string> _ui_Sizes = new();
         public ObservableCollection<string> UI_Sizes
         {
@@ -46,6 +45,7 @@ namespace The_Grocery_App
         public string? Selected_Quantity { get; set; }
         public bool Picker_Visibility { get; set; } = true;
         public Color BackColor { get; set; } = Colors.Transparent;
+        public FontAttributes Item_Font_Attributes { get; set; } = FontAttributes.None;
 
 
         //Text Decorations

@@ -48,6 +48,14 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
         Grouped_Items_Observable.Clear();
     }
 
+    protected async override void OnAppearing()
+    {        
+        base.OnAppearing();
+
+        //The smart list generation button & the entry is invisible by default
+        Generate_Recipe_GO_Button.IsVisible = false;
+        AI_Prompt_Entry.IsVisible = false;
+    }
     protected override void OnDisappearing()
     {
         //Save the XML before you leave foo
@@ -108,8 +116,20 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
     //    }
     //}
 
+    private void OnGenerateSmartListButtonClicked(object sender, EventArgs e)
+    {
+        Generate_Recipe_GO_Button.IsVisible = true;
+        AI_Prompt_Entry.IsVisible = true;
+    }
     private async void OnGoButtonClicked(object sender, EventArgs e)
     {
+        Generate_Smart_List();
+    }
+
+    private async void Generate_Smart_List()
+    {
+        Grouped_Items_Observable.Clear();
+
         string User_Prompt = AI_Prompt_Entry.Text;
 
         if (string.IsNullOrWhiteSpace(User_Prompt))
@@ -136,6 +156,9 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
 
         Generate_Recipe_GO_Button.IsEnabled = false;
         Generate_Recipe_GO_Button.Text = "Generating...";
+        Add_Item_Button.IsEnabled = false;
+        Generate_Recipe_Button.IsEnabled = false;
+        AI_Prompt_Entry.IsEnabled = false;
 
         try
         {
@@ -235,10 +258,17 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
         finally
         {
             Generate_Recipe_GO_Button.IsEnabled = true;
+            Generate_Recipe_GO_Button.IsVisible = false;
             Generate_Recipe_GO_Button.Text = "Go";
-        }
-    }
+            AI_Prompt_Entry.IsEnabled = true;
+            AI_Prompt_Entry.IsVisible = false;
+            AI_Prompt_Entry.Placeholder = "Describe the recipe you want to create...";
 
+            Add_Item_Button.IsEnabled = true;
+            Generate_Recipe_Button.IsEnabled = true;
+            
+        }
+    }   
     //Helper functions
     private string BuildCatalogPrompt()
     {
@@ -396,6 +426,11 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
         {
             Shell.Current.CurrentPage.DisplayAlertAsync("Error", $"Failed to load data: {E.Message}", "OK");
         }
+    }
+
+    async void OnHelpClicked(object? sender, EventArgs e)
+    {
+        await HelpInfo.Show(this);
     }
 
 }

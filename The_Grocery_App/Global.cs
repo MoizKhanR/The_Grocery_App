@@ -69,7 +69,7 @@ namespace The_Grocery_App
 
         //Premium Trial variables
 
-        public const int Free_Recipes_Per_Day = 5;
+        public const int Free_Recipes_Per_Day = 500;
 
         public static int Recipes_Used_Today
         {

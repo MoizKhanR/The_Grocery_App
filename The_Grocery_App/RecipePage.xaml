@@ -7,8 +7,14 @@
              Title="{Binding Page_Name}"
              BackgroundColor="#F5F5E8">
 
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Lists" Clicked="OnListsClicked" />
+        <ToolbarItem Text="?" Clicked="OnHelpClicked" />
+    </ContentPage.ToolbarItems>-->
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="lists.png" Clicked="OnListsClicked" />
+        <ToolbarItem IconImageSource="help.png" Clicked="OnHelpClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
@@ -27,14 +33,17 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Text="Add Items Manually"
-                Background="#00FF52"
-                Clicked="Add_Button_Clicked" />
+                Background="{StaticResource ActionGreen}"
+                Clicked="Add_Button_Clicked"
+                x:Name="Add_Item_Button"/>
 
         <Button Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
-                Text="Generate Items List"
-                Background="#00FFEB" />
+                Text="Generate Smart List"
+                Background="{StaticResource ActionTeal}"
+                x:Name="Generate_Recipe_Button"
+                Clicked="OnGenerateSmartListButtonClicked"/>
 
         <Entry x:Name="AI_Prompt_Entry"
                Grid.Row="3"
