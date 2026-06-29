@@ -33,7 +33,7 @@
                    VerticalOptions="Center" />
 
             <Label Grid.Column="1"
-                   Text="Unlock PRO — Remove Ads &amp; Unlimited Recipes"
+                   Text="Unlock PRO - Remove Ads &amp; Unlimited Recipes"
                    TextColor="#3D2A00"
                    FontSize="14"
                    FontAttributes="Bold"

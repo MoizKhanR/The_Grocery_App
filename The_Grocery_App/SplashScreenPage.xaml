@@ -5,11 +5,9 @@
              Title="SplashScreenPage"
              Shell.NavBarIsVisible="False">
 
-    
 
-        <Image Source="splash.png"
+    <Image Source="splash.png"
                Aspect="AspectFill"/>
 
-   
 
 </ContentPage>

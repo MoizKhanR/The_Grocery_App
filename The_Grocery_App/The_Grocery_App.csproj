@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>The_Grocery_App</ApplicationTitle>
+		<ApplicationTitle>Mama's Grocery</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.moizk.mamasgrocery</ApplicationId>

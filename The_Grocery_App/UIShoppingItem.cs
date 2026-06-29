@@ -187,7 +187,7 @@ namespace The_Grocery_App
             if (File.Exists(File_Path))
             {
                 File.Delete(File_Path);
-                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Shopping list deleted!", "OK");
+                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "List deleted.", "OK");
             }
 
             //Save the new XML
@@ -207,7 +207,7 @@ namespace The_Grocery_App
             if (File.Exists(File_Path))
             {
                 File.Delete(File_Path);
-                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Recipe list deleted!", "OK");
+                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Recipe deleted.", "OK");
             }
 
             //Save the new XML
