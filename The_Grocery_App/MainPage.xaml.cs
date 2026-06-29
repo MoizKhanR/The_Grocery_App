@@ -24,7 +24,7 @@ namespace The_Grocery_App
         {
             try
             {
-                base.OnAppearing();
+                base.OnAppearing();                
 
                 using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
                 

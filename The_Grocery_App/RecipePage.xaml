@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls"
              x:Class="The_Grocery_App.RecipePage"
-             Title="{Binding Page_Name}"
-             BackgroundColor="#F5F5E8"
              x:Name="this"
-             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
+             Title="{Binding Page_Name}"
+             BackgroundColor="#F5F5E8">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Lists" Clicked="OnListsClicked"/>
+        <ToolbarItem Text="Lists" Clicked="OnListsClicked" />
     </ContentPage.ToolbarItems>
 
-        <Grid   RowDefinitions="Auto, Auto, Auto, *, Auto"
-                ColumnDefinitions="*, *, *, Auto"
-                RowSpacing="10"
-                ColumnSpacing="10"
-                Padding="10"> 
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
+          ColumnDefinitions="*, *, *, Auto"
+          RowSpacing="10"
+          ColumnSpacing="10"
+          Padding="10">
 
+        <!-- PRO Banner (auto-hides when Is_Premium is true) -->
+        <ctrls:ProBanner Grid.Row="0"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="4"
+                         Margin="0,0,0,4" />
 
-        <Button Text="Add Items Manually" 
-                Grid.Row="0"
+        <Button Grid.Row="1"
                 Grid.Column="0"
-                Grid.RowSpan="1"
                 Grid.ColumnSpan="4"
+                Text="Add Items Manually"
                 Background="#00FF52"
-                Clicked="Add_Button_Clicked"/>
-
-        <Button Text="Generate Items List" 
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.RowSpan="1"
-                Grid.ColumnSpan="4"
-                Background="#00FFEB"/>
-
-        <Entry  x:Name="AI_Prompt_Entry"
-                Placeholder="Describe the recipe you want to create..." 
-                Grid.Column="0"
-                Grid.Row="2"
-                Grid.ColumnSpan="3"/>
+                Clicked="Add_Button_Clicked" />
 
         <Button Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Text="Generate Items List"
+                Background="#00FFEB" />
+
+        <Entry x:Name="AI_Prompt_Entry"
+               Grid.Row="3"
+               Grid.Column="0"
+               Grid.ColumnSpan="3"
+               Placeholder="Describe the recipe you want to create..." />
+
+        <Button x:Name="Generate_Recipe_GO_Button"
+                Grid.Row="3"
                 Grid.Column="3"
-                x:Name="Generate_Recipe_GO_Button"
-                Text="Go" 
+                Grid.ColumnSpan="1"
+                Text="Go"
                 SemanticProperties.Hint="Initialize recipe generation"
                 HorizontalOptions="Fill"
-                Grid.ColumnSpan="1"
-                Clicked="OnGoButtonClicked"/>
+                Clicked="OnGoButtonClicked" />
 
-
-        <CollectionView Grid.Row="3" 
+        <CollectionView x:Name="Grocery_List_Collection_View"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Grid.ColumnSpan="4"
-                        x:Name="Grocery_List_Collection_View"
                         ItemsSource="{Binding Grouped_Items_Observable}"
-                        IsGrouped="True">   
+                        IsGrouped="True">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Span="1" Orientation="Vertical" />
             </CollectionView.ItemsLayout>
@@ -62,10 +64,10 @@
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <Label Text="{Binding Category_Name}"
-                   BackgroundColor="Goldenrod"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   Padding="5"/>
+                           BackgroundColor="Goldenrod"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Padding="5" />
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
 
@@ -74,78 +76,79 @@
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" 
-                           Command="{Binding Recipe_Delete_Command}"
-                           BackgroundColor="Red"/>
+                                <SwipeItem Text="Delete"
+                                           Command="{Binding Recipe_Delete_Command}"
+                                           BackgroundColor="Red" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3" Margin="0"
-                            BackgroundColor="{Binding BackColor}"
-                            Stroke="LightGray"
-                            StrokeThickness="1">
+                        <Border Padding="3"
+                                Margin="0"
+                                BackgroundColor="{Binding BackColor}"
+                                Stroke="LightGray"
+                                StrokeThickness="1">
                             <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto">
-                                <CheckBox  IsChecked="{Binding Is_Bought}"
-                                   VerticalOptions="Center"
-                                   Grid.Column ="0"/>
-                                <Label Text="{Binding UI_Name}"
-                               TextDecorations="{Binding Item_Decoration}"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center"
-                               Grid.Column="1">
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding Is_Bought}"
+                                          VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding UI_Name}"
+                                       TextDecorations="{Binding Item_Decoration}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Tap_Command}" />
                                     </Label.GestureRecognizers>
                                 </Label>
 
-                                <Label  Text="Quantity" 
-                                FontSize="10" 
-                                TextColor="Red"
-                                Grid.Column="2" 
-                                HorizontalTextAlignment="Center"
-                                Margin="0, 0, 0, 5"/>
+                                <Label Grid.Column="2"
+                                       Text="Quantity"
+                                       FontSize="10"
+                                       TextColor="Red"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,0,0,5" />
 
-                                <Picker ItemsSource="{Binding UI_Quantity}"
-                                SelectedItem="{Binding Selected_Quantity}"
-                                IsVisible="{Binding Picker_Visibility}"
-                                IsEnabled="{Binding Pickers_Enabled}"
-                                VerticalOptions="Center"
-                                Grid.Column="2"
-                                Title="Select"
-                                Margin="0, 5, 0, 0"/>
+                                <Picker Grid.Column="2"
+                                        ItemsSource="{Binding UI_Quantity}"
+                                        SelectedItem="{Binding Selected_Quantity}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        IsEnabled="{Binding Pickers_Enabled}"
+                                        VerticalOptions="Center"
+                                        Title="Select"
+                                        Margin="0,5,0,0" />
 
-                                <Label  Text="Size" 
-                                FontSize="10" 
-                                TextColor="Red"
-                                Grid.Column="3"
-                                HorizontalTextAlignment="Center"
-                                Margin="0, 0, 0, 5"/>
+                                <Label Grid.Column="3"
+                                       Text="Size"
+                                       FontSize="10"
+                                       TextColor="Red"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,0,0,5" />
 
-                                <Picker ItemsSource="{Binding UI_Sizes}"
-                                SelectedItem="{Binding Selected_Size}"
-                                IsVisible="{Binding Picker_Visibility}"
-                                IsEnabled="{Binding Pickers_Enabled}"
-                                VerticalOptions="Center"
-                                Grid.Column="3"
-                                Title="Select"
-                                Margin="0, 5, 0, 0"/>
+                                <Picker Grid.Column="3"
+                                        ItemsSource="{Binding UI_Sizes}"
+                                        SelectedItem="{Binding Selected_Size}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        IsEnabled="{Binding Pickers_Enabled}"
+                                        VerticalOptions="Center"
+                                        Title="Select"
+                                        Margin="0,5,0,0" />
 
-                                <Label  Text="Quality" 
-                                FontSize="10" 
-                                TextColor="Red"
-                                Grid.Column="4"
-                                HorizontalTextAlignment="Center"
-                                Margin="0, 0, 0, 5"/>
+                                <Label Grid.Column="4"
+                                       Text="Quality"
+                                       FontSize="10"
+                                       TextColor="Red"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,0,0,5" />
 
-                                <Picker ItemsSource="{Binding UI_Qualities}"
-                                SelectedItem="{Binding Selected_Quality}"
-                                IsVisible="{Binding Picker_Visibility}"
-                                IsEnabled="{Binding Pickers_Enabled}"
-                                VerticalOptions="Center"
-                                HorizontalTextAlignment="Center"
-                                Grid.Column="4"
-                                Title="Select"
-                                Margin="0, 5, 0, 0"/>
+                                <Picker Grid.Column="4"
+                                        ItemsSource="{Binding UI_Qualities}"
+                                        SelectedItem="{Binding Selected_Quality}"
+                                        IsVisible="{Binding Picker_Visibility}"
+                                        IsEnabled="{Binding Pickers_Enabled}"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Title="Select"
+                                        Margin="0,5,0,0" />
                             </Grid>
                         </Border>
                     </SwipeView>
@@ -153,10 +156,9 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!--- ItemsSource="{Binding Item_Size_Mediator, Source={x:Reference this}}" -->
-
         <!-- Ad Banner (via AdBanner ContentView XAML & Class) -->
-        <ctrls:AdBanner Grid.Row="4"
-                        Grid.ColumnSpan="4"/>
+        <ctrls:AdBanner Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4" />
     </Grid>
 </ContentPage>

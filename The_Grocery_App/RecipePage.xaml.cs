@@ -1,5 +1,4 @@
 namespace The_Grocery_App;
-
 using Mscc.GenerativeAI;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -118,6 +117,23 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
             return;
         }
 
+        //Gating
+        if (!Global.Can_Generate_Recipe())
+        {
+            bool Go = await DisplayAlertAsync("Daily limit reached",
+                $"You've used your {Global.Free_Recipes_Per_Day} free recipes today. Go PRO for unlimited.",
+                "Go PRO", "Maybe later");
+
+            if (Go)
+            {
+                await ProPrompt.Show(this);
+            }
+            else
+            {
+                return;
+            }
+        }
+
         Generate_Recipe_GO_Button.IsEnabled = false;
         Generate_Recipe_GO_Button.Text = "Generating...";
 
@@ -208,7 +224,9 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
 
             //Save the XML
             Save_RecipeList_XML(Grouped_Items_Observable);
-            //await DisplayAlertAsync("Done!", $"Added {recipeItems.Count} ingredients for your recipe!", "OK");
+
+            //Register the recipe generation in the global to track usage
+            Global.Register_Recipe_Generation();
         }
         catch (Exception ex)
         {

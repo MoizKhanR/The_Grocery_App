@@ -1,109 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls"
              x:Class="The_Grocery_App.MainPage"
-             BackgroundColor="#F5F5E8"
-             xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
+             BackgroundColor="#F5F5E8">
 
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, 80"
+          ColumnDefinitions="*, Auto"
+          RowSpacing="10"
+          ColumnSpacing="10"
+          Padding="10">
 
+        <!-- PRO Banner (auto-hides when Is_Premium is true) -->
+        <ctrls:ProBanner Grid.Row="0"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="2"
+                         Margin="0,0,0,4" />
 
-    <!--<ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">-->
+        <!-- Entry + Add button -->
+        <Entry x:Name="List_Name_Entry"
+               Grid.Row="1"
+               Grid.Column="0"
+               Placeholder="ENTER:" />
 
-            <Grid    RowDefinitions="Auto, Auto, Auto, *, 80"
-                     ColumnDefinitions="*, Auto"
-                     RowSpacing="10"
-                     ColumnSpacing="10"
-                     Padding="10">
+        <Button x:Name="CounterBtn"
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="Add"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
 
-           <Entry    x:Name="List_Name_Entry"
-                     Placeholder="ENTER:" 
-                     Grid.Row="0"/>
-
-
-           <Button  Grid.Row="0"
-                    Grid.Column="1"
-                    x:Name="CounterBtn"
-                    Text="Add" 
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Fill" />
-             
-
-        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"                  
-                            x:Name="Grocery_List_Collection_View"
-                            ItemsSource="{Binding UI_Grocery_List_Names}">
-                    <CollectionView.ItemsLayout>
-                            <GridItemsLayout Span="1" Orientation="Vertical" />
-                    </CollectionView.ItemsLayout>
-
+        <!-- Shopping Lists -->
+        <CollectionView x:Name="Grocery_List_Collection_View"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding UI_Grocery_List_Names}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" 
+                                <SwipeItem Text="Delete"
                                            Command="{Binding Main_Shopping_Delete_Command}"
-                                           BackgroundColor="Red"/>
+                                           BackgroundColor="Red" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3" Margin="0"
-                            BackgroundColor="{Binding BackColor}"
-                            Stroke="LightGray"
-                            StrokeThickness="1">    
-                        <Grid ColumnDefinitions="*, Auto, Auto">
-                                <Label  Text="{Binding UI_Name}"
-                                FontSize="18"
-                                FontAttributes="Bold"
-                                VerticalOptions="End"
-                                Grid.Column="0">
+                        <Border Padding="3"
+                                Margin="0"
+                                BackgroundColor="{Binding BackColor}"
+                                Stroke="LightGray"
+                                StrokeThickness="1">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
+                                <Label Grid.Column="0"
+                                       Text="{Binding UI_Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="End">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Main_ShoppingList_Tap_Command}" />
                                     </Label.GestureRecognizers>
                                 </Label>
-
                             </Grid>
                         </Border>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            </CollectionView>
+        </CollectionView>
 
-        <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"                   
-                            x:Name="Recipes_List_Collection_View"
-                            ItemsSource="{Binding UI_Recipe_List_Names}">
+        <!-- Recipes -->
+        <CollectionView x:Name="Recipes_List_Collection_View"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding UI_Recipe_List_Names}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Span="1" Orientation="Vertical" />
             </CollectionView.ItemsLayout>
-
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" 
-                                Command="{Binding Main_Recipe_Delete_Command}"
-                                BackgroundColor="Red"/>
+                                <SwipeItem Text="Delete"
+                                           Command="{Binding Main_Recipe_Delete_Command}"
+                                           BackgroundColor="Red" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3" Margin="0"
-                         BackgroundColor="{Binding BackColor}"
-                         Stroke="LightGray"
-                         StrokeThickness="1">
+                        <Border Padding="3"
+                                Margin="0"
+                                BackgroundColor="{Binding BackColor}"
+                                Stroke="LightGray"
+                                StrokeThickness="1">
                             <Grid ColumnDefinitions="*, Auto, Auto">
-                                <Label  Text="{Binding UI_Name}"
-                                        FontSize="18"
-                                        FontAttributes="Bold"
-                                        VerticalOptions="End"
-                                        Grid.Column="0">
+                                <Label Grid.Column="0"
+                                       Text="{Binding UI_Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="End">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Main_Recipes_Tap_Command}" />
                                     </Label.GestureRecognizers>
                                 </Label>
-
-
                             </Grid>
                         </Border>
                     </SwipeView>
@@ -112,13 +114,10 @@
         </CollectionView>
 
         <!-- Ad Banner (via AdBanner ContentView XAML & Class) -->
-        <ctrls:AdBanner Grid.Row="4"
-                Grid.ColumnSpan="4"/>
+        <ctrls:AdBanner Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" />
 
     </Grid>
-        <!--</VerticalStackLayout>
-    </ScrollView>-->
-
-
 
 </ContentPage>

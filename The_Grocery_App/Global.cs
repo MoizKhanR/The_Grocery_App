@@ -67,6 +67,47 @@ namespace The_Grocery_App
         //Premium Status Change Event Handler
         public static event Action<bool>? OnPremiumChanged;
 
-        
+        //Premium Trial variables
+
+        public const int Free_Recipes_Per_Day = 5;
+
+        public static int Recipes_Used_Today
+        {
+            get => Preferences.Default.Get(nameof(Recipes_Used_Today), 0);
+            set => Preferences.Default.Set(nameof(Recipes_Used_Today), value);
+        }
+        public static string Recipes_Reset_Day
+        {
+            get => Preferences.Default.Get(nameof(Recipes_Reset_Day), "");
+            set => Preferences.Default.Set(nameof(Recipes_Reset_Day), value);
+        }
+
+        public static bool Can_Generate_Recipe()
+        {
+            if (Is_Premium)
+            {
+                return true;
+            }
+
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+
+            //Reset if new day
+            if (Recipes_Reset_Day != today) 
+            { 
+                Recipes_Reset_Day = today; Recipes_Used_Today = 0; 
+            } 
+
+            return Recipes_Used_Today < Free_Recipes_Per_Day;
+        }
+
+        public static void Register_Recipe_Generation()
+        {
+            if (!Is_Premium)
+            {
+                Recipes_Used_Today++;
+            }
+        }
+
+
     }
 }
