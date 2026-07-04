@@ -67,45 +67,54 @@ namespace The_Grocery_App
             Is_Bought ? TextDecorations.Strikethrough : TextDecorations.None;
 
 
-
-
-
         //Main Page's Tap Command - Navigate to the Shopping List Page with the selected item
         public ICommand Main_ShoppingList_Tap_Command => new Command(async () =>
         {
+            if (Global.Is_Navigating)
+            {
+                return;
+            }
+            
+            //Ignore taps while navigating
+            Global.Is_Navigating = true;
+
             try
             {
-                //string Page_Name = Shell.Current.CurrentPage.GetType().Name;
                 if (UI_Name != "Shopping Lists")
                 {
-                    //Set the currently selected shopping list
                     Global.Selected_Shopping_List = UI_Name;
-
-                    //Navigate to the shopping list page with the selected item as a query parameter
                     await Shell.Current.GoToAsync($"{nameof(ShoppingListPage)}?Selected_Item={UI_Name}");
                 }
 
-                //Load the respective XML
                 string File_Path = Path.Combine(FileSystem.AppDataDirectory, $"{Global.Selected_Shopping_List}_GroceryList.xml");
                 ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
 
                 if (File.Exists(File_Path) && Shopping_List_Page is not null)
                 {
-                    //Shopping_List_Page.Grouped_Items_Observable.Clear(); // Clear the existing items in the observable collection before loading new items from the XML
                     Shopping_List_Page.Load_GroceryList_XML(File_Path, Shopping_List_Page.Grouped_Items_Observable);
-
                 }
 
-                //Update the Master List in the Global class via the Observable Collection
-                Global.Grouped_Items_Master_List = Shopping_List_Page!.Grouped_Items_Observable.ToList();
-
+                if (Shopping_List_Page is not null)
+                    Global.Grouped_Items_Master_List = Shopping_List_Page.Grouped_Items_Observable.ToList();
             }
             catch { }
+            finally
+            {
+                Global.Is_Navigating = false;   // release guard even if it throws
+            }
         });
 
         //Main Page's Tap Command - Navigate to the Recipes Page with the selected item
         public ICommand Main_Recipes_Tap_Command => new Command(async () =>
         {
+            if (Global.Is_Navigating)
+            {
+                return;
+            }
+
+            //Ignore taps while navigating
+            Global.Is_Navigating = true;
+
             try
             {
                 //string Page_Name = Shell.Current.CurrentPage.GetType().Name;
@@ -134,7 +143,11 @@ namespace The_Grocery_App
             }
             catch (Exception E)
             {
-                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", E.Message, "OK");
+                //await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", E.Message, "OK");
+            }
+            finally 
+            { 
+                Global.Is_Navigating = false; //Release the guard
             }
         });
 
@@ -187,7 +200,7 @@ namespace The_Grocery_App
             if (File.Exists(File_Path))
             {
                 File.Delete(File_Path);
-                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "List deleted.", "OK");
+                //await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Success", "List deleted.", "OK");
             }
 
             //Save the new XML
@@ -207,7 +220,7 @@ namespace The_Grocery_App
             if (File.Exists(File_Path))
             {
                 File.Delete(File_Path);
-                await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", "Recipe deleted.", "OK");
+                //await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Success", "Recipe deleted.", "OK");
             }
 
             //Save the new XML
@@ -255,7 +268,6 @@ namespace The_Grocery_App
             {
                 Group.Remove(this);
             }
-
 
             if (Group.Count == 0 && Recipe_Page is not null)
             {

@@ -12,6 +12,7 @@ namespace The_Grocery_App
         protected override Window CreateWindow(IActivationState? activationState)
         {
             //return new Window(new AppShell());
+            UserAppTheme = AppTheme.Light; //Force Light Theme
             return new Window(new SplashScreenPage());
         }
     }

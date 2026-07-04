@@ -108,6 +108,9 @@ namespace The_Grocery_App
             }
         }
 
+        //Guard Rails 
+        public static bool Is_Navigating = false; //Prevent multiple navigations at the same time, which can cause issues with the navigation stack and UI behavior.
 
+        public static bool Master_Loaded = false; //Do not reload master list upon navigating to the main page
     }
 }

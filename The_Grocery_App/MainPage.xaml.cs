@@ -24,13 +24,19 @@ namespace The_Grocery_App
         {
             try
             {
-                base.OnAppearing();                
+                base.OnAppearing();
 
-                using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
-                
-                Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
-                Global.The_Master_Catalog = Populate_Grocery_Database(Global.The_Doc); //XML stored inside memory variable
-                Global.Master_List = Populate_Master_List(); //UIShoppingItem Master List is populated (used for searching items when adding to shopping lists)
+                if (Global.Master_Loaded is false)
+                {
+
+                    using var The_Stream = await FileSystem.OpenAppPackageFileAsync("GroceryCatalog.xml");
+
+                    Global.The_Doc = XDocument.Load(The_Stream); //The entire XML is loaded
+                    Global.The_Master_Catalog = Populate_Grocery_Database(Global.The_Doc); //XML stored inside memory variable
+                    Global.Master_List = Populate_Master_List(); //UIShoppingItem Master List is populated (used for searching items when adding to shopping lists)
+
+                    Global.Master_Loaded = true; //Loaded & will not load again
+                }
 
                 //Save_ShoppingList_Names_XML(UI_Grocery_List_Names);
                 //Populate Headers (add exceptions so that they are not duplicated when navigating back and forth between pages)
@@ -58,7 +64,9 @@ namespace The_Grocery_App
             catch (Exception ex) 
             {
                 await DisplayAlertAsync("Error", $"Failed to load data: {ex.Message}", "OK");
+                Global.Master_Loaded = false; //In case of an exception or crash, we must reload the master list
             }
+            
         }
 
         private async void Banner_AdFailedToLoad(object sender, EventArgs e)

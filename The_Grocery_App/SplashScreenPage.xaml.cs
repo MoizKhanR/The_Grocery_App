@@ -10,7 +10,8 @@ public partial class SplashScreenPage : ContentPage
     protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		await Task.Delay(2500); // Simulate loading time
+
+		await Task.Delay(3500); // Simulate loading time
 								
 		//Open Main Page after 2.5 seconds of displaying the SplashScreenPage
 
