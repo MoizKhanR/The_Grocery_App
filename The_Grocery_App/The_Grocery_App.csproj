@@ -2,9 +2,15 @@
 
 	<PropertyGroup>
     <NoWarn>$(NoWarn);NU1608</NoWarn>
-		<TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
-    
+
+    <!-- <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+      <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+    </PropertyGroup>
+    <PropertyGroup>
+      <ForceSimulatorX64ArchitectureInIDE>true</ForceSimulatorX64ArchitectureInIDE>
+    </PropertyGroup> -->
 
 		<!-- Note for MacCatalyst:
 		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
@@ -44,9 +50,7 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<!-- <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" /> -->
-    <MauiIcon Include="Resources\AppIcon\appicon.png"
-							ForegroundFile="Resources\AppIcon\appiconfg.png"
-							Color="#F5F5E8" />
+    <MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.png" Color="#F5F5E8" />
 
 		<!-- Splash Screen		
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F0EDD8" BaseSize="900,1600"/> -->
@@ -63,8 +67,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.80" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.9" />
 		<PackageReference Include="Mscc.GenerativeAI" Version="3.1.0" />
 		<PackageReference Include="Plugin.InAppBilling" Version="10.0.0" />
 		<PackageReference Include="Plugin.MauiMTAdmob" Version="2.4.0" />
