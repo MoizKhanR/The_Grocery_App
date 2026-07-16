@@ -113,7 +113,7 @@
 
                                 <Picker Grid.Column="3"
                                         ItemsSource="{Binding UI_Sizes}"
-                                        SelectedItem="{Binding Selected_Size}"
+                                        SelectedIndex="{Binding Size_Index}"
                                         IsVisible="{Binding Picker_Visibility}"
                                         IsEnabled="{Binding Pickers_Enabled}"
                                         VerticalOptions="Center"
@@ -129,7 +129,7 @@
 
                                 <Picker Grid.Column="4"
                                         ItemsSource="{Binding UI_Qualities}"
-                                        SelectedItem="{Binding Selected_Quality}"
+                                        SelectedIndex="{Binding Quality_Index}"
                                         IsVisible="{Binding Picker_Visibility}"
                                         IsEnabled="{Binding Pickers_Enabled}"
                                         VerticalOptions="Center"

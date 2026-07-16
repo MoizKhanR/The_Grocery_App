@@ -1,0 +1,138 @@
+  Determining projects to restore...
+/Users/raidenkhan/The_Grocery_App/The_Grocery_App/The_Grocery_App.csproj : warning NU1900: Error occurred while getting package vulnerability data: Access to the path '/Users/raidenkhan/.local/share/NuGet/http-cache' is denied.
+  All projects are up-to-date for restore.
+  xcrun simctl launch --console --terminate-running-process 49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760 com.moizk.mamasgrocery
+  com.moizk.mamasgrocery: 2346
+  2026-07-05 22:56:22.951455+0500 The_Grocery_App[2346:65649] Microsoft.iOS: Socket error while connecting to IDE on 127.0.0.1:10000: Connection refused
+  2026-07-05 22:56:23.677815+0500 The_Grocery_App[2346:65638] [UIKit App Config] `UIScene` lifecycle will soon be required. Failure to adopt will result in an assert in the future.
+  2026-07-05 22:56:23.677903+0500 The_Grocery_App[2346:65638] [UIKit App Config] Update the Info.plist: Launch screens will soon be required.
+  2026-07-05 22:56:23.689173+0500 The_Grocery_App[2346:65638] You've implemented -[<UIApplicationDelegate> application:performFetchWithCompletionHandler:], but you still need to add "fetch" to the list of your supported UIBackgroundModes in your Info.plist.
+  2026-07-05 22:56:24.030215+0500 The_Grocery_App[2346:65678] *** Terminating app due to uncaught exception 'GADInvalidInitializationException', reason: 'The Google Mobile Ads SDK was initialized without an application ID. Google AdMob publishers, follow instructions at https://goo.gle/admob-ios-update-plist to set a valid application ID. Google Ad Manager publishers, follow instructions at https://goo.gle/ad-manager-ios-update-plist.'
+  *** First throw call stack:
+  (
+  	0   CoreFoundation                      0x00000001804c3dec __exceptionPreprocess + 172
+  	1   libobjc.A.dylib                     0x0000000180063438 objc_exception_throw + 72
+  	2   CoreFoundation                      0x00000001804c3980 -[NSException init] + 0
+  	3   The_Grocery_App                     0x0000000100b0ffbc GADApplicationVerifyPublisherInitializedCorrectly + 160
+  	4   The_Grocery_App                     0x0000000100b10138 GADApplicationVerifyPublisherInitializedCorrectly + 540
+  	5   libdispatch.dylib                   0x00000001801866a0 _dispatch_call_block_and_release + 24
+  	6   libdispatch.dylib     
+  *** Terminating app due to uncaught exception 'GADInvalidInitializationException', reason: 'The Google Mobile Ads SDK was initialized without an application ID. Google AdMob publishers, follow instructions at https://goo.gle/admob-ios-update-plist to set a valid application ID. Google Ad Manager publishers, follow instructions at https://goo.gle/ad-manager-ios-update-plist.'
+  *** First throw call stack:
+  (
+  	0   CoreFoundation                      0x00000001804c3dec __exceptionPreprocess + 172
+  	1   libobjc.A.dylib                     0x0000000180063438 objc_exception_throw + 72
+  	2   CoreFoundation                      0x00000001804c3980 -[NSException init] + 0
+  	3   The_Grocery_App                     0x0000000100b0ffbc GADApplicationVerifyPublisherInitializedCorrectly + 160
+  	4   The_Grocery_App                     0x0000000100b10138 GADApplicationVerifyPublisherInitializedCorrectly + 540
+  	5   libdispatch.dylib                   0x00000001801866a0 _dispatch_call_block_and_release + 24
+  	6   libdispatch.dylib                   0x00000001801a0e98 _dispatch_client_callout + 12
+  	7   libdispatch.dylib                   0x00000001801bcae0 _dispatch_workloop_invoke.cold.4 + 28
+  	8   libdispatch.dylib                   0x000000018018ab90 _dispatch_queue_override_invoke + 1180
+  	9   libdispatch.dylib                   0x00000001801994d4 _dispatch_root_queue_drain + 328
+  	10  libdispatch.dylib                   0x0000000180199eb0 _dispatch_worker_thread2 + 252
+  	11  libsystem_pthread.dylib             0x00000001021cabec _pthread_wqthread + 228
+  	12  libsystem_pthread.dylib             0x00000001021c9a28 start_wqthread + 8
+  )
+  2026-07-05 22:56:24.031130+0500 The_Grocery_App[2346:65678] *** Terminating app due to uncaught exception 'GADInvalidInitializationException', reason: 'The Google Mobile Ads SDK was initialized without an application ID. Google AdMob publishers, follow instructions at https://goo.gle/admob-ios-update-plist to set a valid application ID. Google Ad Manager publishers, follow instructions at https://goo.gle/ad-manager-ios-update-plist.'
+  *** First throw call stack:
+  (
+  	0   CoreFoundation                      0x00000001804c3dec __exceptionPreprocess + 172
+  	1   libobjc.A.dylib                     0x0000000180063438 objc_exception_throw + 72
+  	2   CoreFoundation                      0x00000001804c3980 -[NSException init] + 0
+  	3   The_Grocery_App                     0x0000000100b0ffbc GADApplicationVerifyPublisherInitializedCorrectly + 160
+  	4   The_Grocery_App                     0x0000000100b10138 GADApplicationVerifyPublisherInitializedCorrectly + 540
+  	5   libdispatch.dylib                   0x00000001801866a0 _dispatch_call_block_and_release + 24
+  	6   libdispatch.dylib     
+  *** Terminating app due to uncaught exception 'GADInvalidInitializationException', reason: 'The Google Mobile Ads SDK was initialized without an application ID. Google AdMob publishers, follow instructions at https://goo.gle/admob-ios-update-plist to set a valid application ID. Google Ad Manager publishers, follow instructions at https://goo.gle/ad-manager-ios-update-plist.'
+  *** First throw call stack:
+  (
+  	0   CoreFoundation                      0x00000001804c3dec __exceptionPreprocess + 172
+  	1   libobjc.A.dylib                     0x0000000180063438 objc_exception_throw + 72
+  	2   CoreFoundation                      0x00000001804c3980 -[NSException init] + 0
+  	3   The_Grocery_App                     0x0000000100b0ffbc GADApplicationVerifyPublisherInitializedCorrectly + 160
+  	4   The_Grocery_App                     0x0000000100b10138 GADApplicationVerifyPublisherInitializedCorrectly + 540
+  	5   libdispatch.dylib                   0x00000001801866a0 _dispatch_call_block_and_release + 24
+  	6   libdispatch.dylib                   0x00000001801a0e98 _dispatch_client_callout + 12
+  	7   libdispatch.dylib                   0x00000001801bcae0 _dispatch_workloop_invoke.cold.4 + 28
+  	8   libdispatch.dylib                   0x000000018018ab90 _dispatch_queue_override_invoke + 1180
+  	9   libdispatch.dylib                   0x00000001801994d4 _dispatch_root_queue_drain + 328
+  	10  libdispatch.dylib                   0x0000000180199eb0 _dispatch_worker_thread2 + 252
+  	11  libsystem_pthread.dylib             0x00000001021cabec _pthread_wqthread + 228
+  	12  libsystem_pthread.dylib             0x00000001021c9a28 start_wqthread + 8
+  )
+  
+  =================================================================
+  	Native Crash Reporting
+  =================================================================
+  Got a SIGABRT while executing native code. This usually indicates
+  a fatal error in the mono runtime or one of the native libraries 
+  used by your application.
+  =================================================================
+  
+  2026-07-05 22:56:24.031221+0500 The_Grocery_App[2346:65678] Detected recursion when handling uncaught Objective-C exception: The Google Mobile Ads SDK was initialized without an application ID. Google AdMob publishers, follow instructions at https://goo.gle/admob-ios-update-plist to set a valid application ID. Google Ad Manager publishers, follow instructions at https://goo.gle/ad-manager-ios-update-plist.
+  =================================================================
+  	Native stacktrace:
+  =================================================================
+  	0x101c2ef4c - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_dump_native_crash_info
+  	0x101bdecec - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_handle_native_crash
+  	0x101d943a8 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : sigabrt_signal_handler.cold.1
+  	0x101c2e810 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_runtime_setup_stat_profiler
+  	0x1017cf540 - /usr/lib/system/libsystem_platform.dylib : _sigtramp
+  	0x1021ce338 - /usr/lib/system/libsystem_pthread.dylib : pthread_kill
+  	0x18017b984 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libsystem_c.dylib : abort
+  	0x1018a962c - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : _ZL17exception_handlerP11NSException
+  	0x1804c4184 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation : __handleUncaughtException
+  	0x18003f190 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libobjc.A.dylib : _ZL15_objc_terminatev
+  	0x1802ce790 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : _ZSt11__terminatePFvvE
+  	0x1802d170c - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : __cxa_get_exception_ptr
+  	0x1802d16ec - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : _ZN10__cxxabiv1L12failed_throwEPNS_15__cxa_exceptionE
+  	0x180063570 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libobjc.A.dylib : objc_exception_throw
+  	0x1018a8fb4 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : xamarin_process_managed_exception
+  	0x1018a8ac8 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : xamarin_process_managed_exception_gchandle
+  	0x1018a8a80 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : xamarin_ftnptr_exception_handler
+  	0x101bddb98 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_handle_exception_internal
+  	0x101bdcf60 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_handle_exception
+  	0x101c3aad4 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : interp_throw
+  	0x101c38df0 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : interp_throw_ex_general
+  	0x101c38afc - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : mono_interp_exec_method
+  	0x101c2fc4c - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libmonosgen-2.0.dylib : interp_entry_from_trampoline
+  	0x100c29a60 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/The_Grocery_App : native_to_interp_trampoline
+  	0x1018a5388 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : xamarin_throw_ns_exception
+  	0x1018a9650 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/libxamarin-dotnet-debug.dylib : _ZL17exception_handlerP11NSException
+  	0x1804c4184 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation : __handleUncaughtException
+  	0x18003f190 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libobjc.A.dylib : _ZL15_objc_terminatev
+  	0x1802ce790 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : _ZSt11__terminatePFvvE
+  	0x1802d170c - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : __cxa_get_exception_ptr
+  	0x1802d16ec - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libc++abi.dylib : _ZN10__cxxabiv1L12failed_throwEPNS_15__cxa_exceptionE
+  	0x180063570 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/libobjc.A.dylib : objc_exception_throw
+  	0x1804c3980 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation : -[NSException init]
+  	0x100b0ffbc - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/The_Grocery_App : GADApplicationVerifyPublisherInitializedCorrectly
+  	0x100b10138 - /Users/raidenkhan/Library/Developer/CoreSimulator/Devices/49CCBB5B-1EA3-47D9-92F6-C4A25EE4E760/data/Containers/Bundle/Application/8A1E3D01-1602-48B7-B591-0E5154C776CC/The_Grocery_App.app/The_Grocery_App : GADApplicationVerifyPublisherInitializedCorrectly
+  	0x1801866a0 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_call_block_and_release
+  	0x1801a0e98 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_client_callout
+  	0x1801bcae0 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_workloop_invoke.cold.4
+  	0x18018ab90 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_queue_override_invoke
+  	0x1801994d4 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_root_queue_drain
+  	0x180199eb0 - /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/usr/lib/system/libdispatch.dylib : _dispatch_worker_thread2
+  	0x1021cabec - /usr/lib/system/libsystem_pthread.dylib : _pthread_wqthread
+  	0x1021c9a28 - /usr/lib/system/libsystem_pthread.dylib : start_wqthread
+  
+  =================================================================
+  	Basic Fault Address Reporting
+  =================================================================
+  Memory around native instruction pointer (0x1025f088c):0x1025f087c  c0 03 5f d6 c0 03 5f d6 10 29 80 d2 01 10 00 d4  .._..._..)......
+  0x1025f088c  e3 00 00 54 fd 7b bf a9 fd 03 00 91 16 e3 ff 97  ...T.{..........
+  0x1025f089c  bf 03 00 91 fd 7b c1 a8 c0 03 5f d6 c0 03 5f d6  .....{...._..._.
+  0x1025f08ac  70 0a 80 d2 01 10 00 d4 e3 00 00 54 fd 7b bf a9  p..........T.{..
+  
+  =================================================================
+  	Managed Stacktrace:
+  =================================================================
+  =================================================================
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.69

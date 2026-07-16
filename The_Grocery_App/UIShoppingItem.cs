@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using System.Xml.Linq;
-
+ 
 namespace The_Grocery_App
 {
     public class UIShoppingItem : INotifyPropertyChanged
@@ -17,19 +18,19 @@ namespace The_Grocery_App
 
         public string? Category_Name { get; set; }
         public string? UI_Name { get; set; }
-       
+
         private ObservableCollection<string> _ui_Sizes = new();
         public ObservableCollection<string> UI_Sizes
         {
             get => _ui_Sizes;
-            set { _ui_Sizes = value; OnPropertyChanged(); }
+            set { _ui_Sizes = value; OnPropertyChanged(); OnPropertyChanged(nameof(Size_Index)); }
         }
 
         private ObservableCollection<string> _ui_Qualities = new();
         public ObservableCollection<string> UI_Qualities
         {
             get => _ui_Qualities;
-            set { _ui_Qualities = value; OnPropertyChanged(); }
+            set { _ui_Qualities = value; OnPropertyChanged(); OnPropertyChanged(nameof(Quality_Index)); }
         }
 
         private ObservableCollection<string> _ui_Quantity =
@@ -40,9 +41,51 @@ namespace The_Grocery_App
             get => _ui_Quantity;
             set { _ui_Quantity = value; OnPropertyChanged(); }
         }
-        public string? Selected_Size { get; set; }
-        public string? Selected_Quality { get; set; }
-        public string? Selected_Quantity { get; set; }
+
+        // ---- Size (index-based binding; survives CollectionView recycle) ----
+        private string? _selected_Size;
+        public string? Selected_Size
+        {
+            get => _selected_Size;
+            set { _selected_Size = value; OnPropertyChanged(); OnPropertyChanged(nameof(Size_Index)); }
+        }
+
+        public int Size_Index
+        {
+            get => (Selected_Size != null) ? UI_Sizes.IndexOf(Selected_Size) : -1;
+            set
+            {
+                Selected_Size = (value >= 0 && value < UI_Sizes.Count) ? UI_Sizes[value] : null;
+                OnPropertyChanged();
+            }
+        }
+
+        // ---- Quality (index-based binding; survives CollectionView recycle) ----
+        private string? _selected_Quality;
+        public string? Selected_Quality
+        {
+            get => _selected_Quality;
+            set { _selected_Quality = value; OnPropertyChanged(); OnPropertyChanged(nameof(Quality_Index)); }
+        }
+
+        public int Quality_Index
+        {
+            get => (Selected_Quality != null) ? UI_Qualities.IndexOf(Selected_Quality) : -1;
+            set
+            {
+                Selected_Quality = (value >= 0 && value < UI_Qualities.Count) ? UI_Qualities[value] : null;
+                OnPropertyChanged();
+            }
+        }
+
+        // ---- Quantity (unchanged; static 1-100 list always matches) ----
+        private string? _selected_Quantity;
+        public string? Selected_Quantity
+        {
+            get => _selected_Quantity;
+            set { _selected_Quantity = value; OnPropertyChanged(); }
+        }
+
         public bool Picker_Visibility { get; set; } = true;
         public Color BackColor { get; set; } = Colors.Transparent;
         public FontAttributes Item_Font_Attributes { get; set; } = FontAttributes.None;
@@ -74,7 +117,7 @@ namespace The_Grocery_App
             {
                 return;
             }
-            
+
             //Ignore taps while navigating
             Global.Is_Navigating = true;
 
@@ -145,8 +188,8 @@ namespace The_Grocery_App
             {
                 //await Application.Current!.Windows[0].Page!.DisplayAlertAsync("Error", E.Message, "OK");
             }
-            finally 
-            { 
+            finally
+            {
                 Global.Is_Navigating = false; //Release the guard
             }
         });
@@ -229,24 +272,24 @@ namespace The_Grocery_App
 
         public ICommand Shopping_List_Delete_Command => new Command(async () =>
         {
-            ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;         
+            ShoppingListPage? Shopping_List_Page = Shell.Current.CurrentPage as ShoppingListPage;
 
             var Group = Shopping_List_Page?.Grouped_Items_Observable
                         .FirstOrDefault(g => g.Contains(this));
 
-            if(Group is null)
+            if (Group is null)
             {
                 return;
             }
-            else 
+            else
             {
                 Group.Remove(this);
             }
-                    
+
 
             if (Group.Count == 0 && Shopping_List_Page is not null)
             {
-                Shopping_List_Page.Grouped_Items_Observable.Remove(Group);                
+                Shopping_List_Page.Grouped_Items_Observable.Remove(Group);
             }
 
             Shopping_List_Page!.Save_GroceryList_XML(Shopping_List_Page.Grouped_Items_Observable);
@@ -279,3 +322,26 @@ namespace The_Grocery_App
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

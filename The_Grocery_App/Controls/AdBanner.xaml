@@ -3,5 +3,5 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="The_Grocery_App.Controls.AdBanner"
              xmlns:ads="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob">
-    <ads:MTAdView x:Name="Banner" AdsId="ca-app-pub-3940256099942544/6300978111" />
+    <ads:MTAdView x:Name="Banner" AdsId="ca-app-pub-3337756787254419/4827080567" />
 </ContentView>
