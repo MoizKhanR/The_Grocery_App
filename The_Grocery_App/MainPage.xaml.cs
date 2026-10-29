@@ -18,6 +18,10 @@ namespace The_Grocery_App
         {
             InitializeComponent();
             BindingContext = this;
+
+            //iOS doesn't grow a list box when items are added/removed, so nudge it to re-measure
+            UI_Grocery_List_Names.CollectionChanged += (s, e) => Refresh_List_Size(Grocery_List_Collection_View);
+            UI_Recipe_List_Names.CollectionChanged += (s, e) => Refresh_List_Size(Recipes_List_Collection_View);
         }
 
         protected async override void OnAppearing()
@@ -435,6 +439,13 @@ namespace The_Grocery_App
             }
 
             return The_Master_List;
+        }
+
+        //Re-measure a list so new rows show (now, and again once iOS has laid the row out)
+        void Refresh_List_Size(CollectionView The_List)
+        {
+            Dispatcher.Dispatch(() => ((IView)The_List).InvalidateMeasure());
+            Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(120), () => ((IView)The_List).InvalidateMeasure());
         }
 
         async void OnHelpClicked(object? sender, EventArgs e)

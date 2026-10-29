@@ -17,7 +17,7 @@
                                     "SMART RECIPES ✨\n" +
                                     "• Open a recipe, describe what you're after, tap \"Go\"\n" +
                                     "• We build the ingredient list for you\n" +
-                                    "• Free users get 5 a day\n" +
+                                    "• Free users get 3 a day\n" +
                                     "• You can also add items manually, hit \"Add Something...\" and search\n\n" +
                                     "Go PRO 👑\n" +
                                     "• One unlock kills the ads and lifts the recipe limit for good\n" +

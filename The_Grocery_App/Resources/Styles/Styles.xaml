@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:The_Grocery_App.Controls">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -59,19 +60,20 @@
     </Style>
     -->
 
-    <!-- REFINED: Sleek buttons (rounder, semibold, soft lift) -->
+    <!-- 1.0.5 POLISH: Nunito, rounder corners, softer lift + a little "press" spring on every button -->
     <Style TargetType="Button">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="CharacterSpacing" Value="0.2"/>
         <Setter Property="BorderWidth" Value="0"/>
-        <Setter Property="CornerRadius" Value="12"/>
-        <Setter Property="Padding" Value="16,12"/>
-        <Setter Property="MinimumHeightRequest" Value="46"/>
+        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="Padding" Value="18,12"/>
+        <Setter Property="MinimumHeightRequest" Value="48"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Black}" Opacity="0.18" Radius="8" Offset="0,3" />
+            <Shadow Brush="{StaticResource Black}" Opacity="0.14" Radius="10" Offset="0,4" />
         </Setter>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -87,6 +89,9 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+        <Style.Behaviors>
+            <ctrls:PressScaleBehavior />
+        </Style.Behaviors>
     </Style>
 
     <Style TargetType="CheckBox">
@@ -151,11 +156,11 @@
     </Style>
 
     <Style TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="FontFamily" Value="NunitoSemiBold"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderText}, Dark={StaticResource Gray500}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -215,11 +220,11 @@
     </Style>
     -->
 
-    <!-- REFINED: Comfortable base text (15px, warm ink) -->
+    <!-- REFINED: Comfortable base text (15px, warm ink, Nunito) -->
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontFamily" Value="NunitoRegular" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -250,10 +255,10 @@
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource White}}" />
+        <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource MutedText}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontFamily" Value="NunitoBold"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -314,12 +319,12 @@
     </Style>
 
     <Style TargetType="SearchBar">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
-        <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource White}}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderText}" />
+        <Setter Property="CancelButtonColor" Value="{StaticResource MutedText}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="NunitoSemiBold" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -455,9 +460,9 @@
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
-        <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource SecondaryDarkText}}" />
-        <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource SecondaryDarkText}}" />
+        <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource Cream}, Dark={StaticResource OffBlack}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource SecondaryDarkText}}" />
+        <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource InkText}, Dark={StaticResource SecondaryDarkText}}" />
         <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="Shell.NavBarHasShadow" Value="False" />
@@ -478,6 +483,86 @@
         <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource Magenta}, Dark={StaticResource White}}" />
         <Setter Property="UnselectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+    </Style>
+
+    <!-- ===================== 1.0.5 POLISH: shared looks for the pages ===================== -->
+
+    <!-- White rounded card for list rows -->
+    <Style TargetType="Border" x:Key="RowCard">
+        <Setter Property="StrokeShape" Value="RoundRectangle 14"/>
+        <Setter Property="Stroke" Value="{StaticResource Hairline}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
+    </Style>
+
+    <!-- White rounded box around text boxes and the search bar -->
+    <Style TargetType="Border" x:Key="InputCard">
+        <Setter Property="StrokeShape" Value="RoundRectangle 14"/>
+        <Setter Property="Stroke" Value="{StaticResource Hairline}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Padding" Value="14,0"/>
+        <Setter Property="MinimumHeightRequest" Value="48"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource Black}" Opacity="0.06" Radius="8" Offset="0,2" />
+        </Setter>
+    </Style>
+
+    <!-- Goldenrod category header (same color family as before, now a rounded pill) -->
+    <Style TargetType="Border" x:Key="CategoryPill">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="Padding" Value="12,7"/>
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="{StaticResource CategoryGold}" Offset="0.0" />
+                <GradientStop Color="{StaticResource CategoryGoldDeep}" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Label" x:Key="CategoryText">
+        <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="CharacterSpacing" Value="0.8"/>
+        <Setter Property="TextTransform" Value="Uppercase"/>
+        <Setter Property="TextColor" Value="{StaticResource CategoryInk}"/>
+    </Style>
+
+    <!-- Little rounded chips that hold the Quantity / Size / Quality pickers -->
+    <Style TargetType="Border" x:Key="Chip">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,4,8,2"/>
+        <Setter Property="MinimumWidthRequest" Value="56"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ChipFill}"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="ChipCaption">
+        <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+        <Setter Property="FontSize" Value="9"/>
+        <Setter Property="CharacterSpacing" Value="0.6"/>
+        <Setter Property="TextTransform" Value="Uppercase"/>
+        <Setter Property="TextColor" Value="{StaticResource ChipCaption}"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="Picker" x:Key="ChipPicker">
+        <Setter Property="FontFamily" Value="NunitoBold"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="TextColor" Value="{StaticResource InkText}"/>
+        <Setter Property="TitleColor" Value="{StaticResource MutedText}"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="MinimumHeightRequest" Value="30"/>
+        <Setter Property="MinimumWidthRequest" Value="40"/>
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <!-- Swipe-to-delete -->
+    <Style TargetType="SwipeItem" x:Key="DeleteSwipe">
+        <Setter Property="BackgroundColor" Value="{StaticResource DangerRed}" />
     </Style>
 
 </ResourceDictionary>

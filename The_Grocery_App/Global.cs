@@ -108,6 +108,27 @@ namespace The_Grocery_App
             }
         }
 
+        //Smart lists go through OUR proxy (Cloudflare Worker) - the Gemini key, the prompt and the model live there, not in the app.
+        //Change the model or the daily limits in Proxy/wrangler.toml and run "npx wrangler deploy" - no app update needed.
+        public const string Proxy_Url = "https://mamasgrocery-api.moizapps.workers.dev/recipe";
+
+        //Anonymous id for this install (the proxy uses it for the per-phone daily limit - no personal data)
+        public static string Device_Id
+        {
+            get
+            {
+                string Id = Preferences.Default.Get(nameof(Device_Id), "");
+
+                if (Id == "")
+                {
+                    Id = Guid.NewGuid().ToString("N");
+                    Preferences.Default.Set(nameof(Device_Id), Id);
+                }
+
+                return Id;
+            }
+        }
+
         //Guard Rails 
         public static bool Is_Navigating = false; //Prevent multiple navigations at the same time, which can cause issues with the navigation stack and UI behavior.
 

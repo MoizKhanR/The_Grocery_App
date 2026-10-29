@@ -1,0 +1,20 @@
+# Mama's Grocery proxy - keeps the Gemini key OFF the phone.
+# Deploy:  npx wrangler deploy
+name = "mamasgrocery-api"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+GEMINI_MODEL = "gemini-3.5-flash-lite"            # Cheapest + fastest - plenty for matching ingredients to the catalog
+GEMINI_FALLBACK_MODEL = "gemini-3.1-flash-lite"   # Only used if the main one is down or busy (same model Ladle uses)
+DEVICE_DAILY_LIMIT = "30"     # Per phone, per day (free users stop at 3 in the app - this only stops scripts)
+GLOBAL_DAILY_LIMIT = "800"    # Whole app, per day - stays under the free Gemini quota so you never get billed
+
+# One tiny counter that remembers today's usage (free on Cloudflare's free plan)
+[[durable_objects.bindings]]
+name = "COUNTER"
+class_name = "Usage_Counter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Usage_Counter"]

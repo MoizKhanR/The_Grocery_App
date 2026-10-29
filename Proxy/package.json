@@ -1,0 +1,12 @@
+{
+  "name": "mamasgrocery-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "logs": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

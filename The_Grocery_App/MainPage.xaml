@@ -15,21 +15,29 @@
 
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, 80"
           ColumnDefinitions="*, Auto"
-          RowSpacing="10"
+          RowSpacing="12"
           ColumnSpacing="10"
-          Padding="10">
+          Padding="14,10,14,10">
+
+        <!-- Whole page glides in -->
+        <Grid.Behaviors>
+            <ctrls:FadeInBehavior Duration="320" Offset="14" />
+        </Grid.Behaviors>
 
         <!-- PRO Banner (auto-hides when Is_Premium is true) -->
         <ctrls:ProBanner Grid.Row="0"
                          Grid.Column="0"
                          Grid.ColumnSpan="2"
-                         Margin="0,0,0,4" />
+                         Margin="0,0,0,2" />
 
         <!-- Entry + Add button -->
-        <Entry x:Name="List_Name_Entry"
-               Grid.Row="1"
-               Grid.Column="0"
-               Placeholder="ENTER:" />
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource InputCard}">
+            <Entry x:Name="List_Name_Entry"
+                   Placeholder="New list or recipe name..."
+                   VerticalOptions="Center" />
+        </Border>
 
         <Button x:Name="CounterBtn"
                 Grid.Row="1"
@@ -46,32 +54,56 @@
                         Grid.ColumnSpan="2"
                         ItemsSource="{Binding UI_Grocery_List_Names}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="1" Orientation="Vertical" />
+                <GridItemsLayout Span="1" Orientation="Vertical" VerticalItemSpacing="8" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView>
+                    <SwipeView BackgroundColor="Transparent">
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
-                                           Command="{Binding Main_Shopping_Delete_Command}"
-                                           BackgroundColor="Red" />
+                                           Style="{StaticResource DeleteSwipe}"
+                                           Command="{Binding Main_Shopping_Delete_Command}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3"
-                                Margin="0"
-                                BackgroundColor="{Binding BackColor}"
-                                Stroke="LightGray"
-                                StrokeThickness="1">
-                            <Grid ColumnDefinitions="*, Auto, Auto">
+                        <Border Style="{StaticResource RowCard}">
+                            <Border.Triggers>
+                                <!-- Section header rows ("Shopping Lists" / "Recipes") get the brand green -->
+                                <DataTrigger TargetType="Border" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource HeaderGreen}" />
+                                    <Setter Property="Stroke" Value="{StaticResource HeaderGreen}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Main_ShoppingList_Tap_Command}" />
+                                </Grid.GestureRecognizers>
                                 <Label Grid.Column="0"
                                        Text="{Binding UI_Name}"
-                                       FontSize="18"
-                                       FontAttributes="{Binding Item_Font_Attributes}"
-                                       VerticalOptions="End">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Main_ShoppingList_Tap_Command}" />
-                                    </Label.GestureRecognizers>
+                                       FontFamily="NunitoBold"
+                                       FontSize="17"
+                                       Padding="16,13"
+                                       VerticalOptions="Center">
+                                    <Label.Triggers>
+                                        <!-- Section header row ("Shopping Lists") -->
+                                        <DataTrigger TargetType="Label" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                            <Setter Property="TextColor" Value="White" />
+                                            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+                                            <Setter Property="Padding" Value="16,10" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="1"
+                                       Text="&#x203A;"
+                                       FontSize="24"
+                                       TextColor="{StaticResource MutedText}"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,16,3">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
                                 </Label>
                             </Grid>
                         </Border>
@@ -87,32 +119,56 @@
                         Grid.ColumnSpan="2"
                         ItemsSource="{Binding UI_Recipe_List_Names}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="1" Orientation="Vertical" />
+                <GridItemsLayout Span="1" Orientation="Vertical" VerticalItemSpacing="8" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView>
+                    <SwipeView BackgroundColor="Transparent">
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
-                                           Command="{Binding Main_Recipe_Delete_Command}"
-                                           BackgroundColor="Red" />
+                                           Style="{StaticResource DeleteSwipe}"
+                                           Command="{Binding Main_Recipe_Delete_Command}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3"
-                                Margin="0"
-                                BackgroundColor="{Binding BackColor}"
-                                Stroke="LightGray"
-                                StrokeThickness="1">
-                            <Grid ColumnDefinitions="*, Auto, Auto">
+                        <Border Style="{StaticResource RowCard}">
+                            <Border.Triggers>
+                                <!-- Section header rows ("Shopping Lists" / "Recipes") get the brand green -->
+                                <DataTrigger TargetType="Border" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource HeaderGreen}" />
+                                    <Setter Property="Stroke" Value="{StaticResource HeaderGreen}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Main_Recipes_Tap_Command}" />
+                                </Grid.GestureRecognizers>
                                 <Label Grid.Column="0"
                                        Text="{Binding UI_Name}"
-                                       FontSize="18"
-                                       FontAttributes="{Binding Item_Font_Attributes}"
-                                       VerticalOptions="End">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Main_Recipes_Tap_Command}" />
-                                    </Label.GestureRecognizers>
+                                       FontFamily="NunitoBold"
+                                       FontSize="17"
+                                       Padding="16,13"
+                                       VerticalOptions="Center">
+                                    <Label.Triggers>
+                                        <!-- Section header row ("Recipes") -->
+                                        <DataTrigger TargetType="Label" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                            <Setter Property="TextColor" Value="White" />
+                                            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+                                            <Setter Property="Padding" Value="16,10" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="1"
+                                       Text="&#x203A;"
+                                       FontSize="24"
+                                       TextColor="{StaticResource MutedText}"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,16,3">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Item_Font_Attributes}" Value="{x:Static FontAttributes.Bold}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
                                 </Label>
                             </Grid>
                         </Border>

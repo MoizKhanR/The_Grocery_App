@@ -21,13 +21,18 @@
           ColumnDefinitions="*, *, *, Auto"
           RowSpacing="10"
           ColumnSpacing="10"
-          Padding="10">
+          Padding="14,10,14,10">
+
+        <!-- Whole page glides in -->
+        <Grid.Behaviors>
+            <ctrls:FadeInBehavior Duration="300" Offset="12" />
+        </Grid.Behaviors>
 
         <!-- PRO Banner (auto-hides when Is_Premium is true) -->
         <ctrls:ProBanner Grid.Row="0"
                          Grid.Column="0"
                          Grid.ColumnSpan="4"
-                         Margin="0,0,0,4" />
+                         Margin="0,0,0,2" />
 
         <Button Grid.Row="1"
                 Grid.Column="0"
@@ -45,11 +50,18 @@
                 x:Name="Generate_Recipe_Button"
                 Clicked="OnGenerateSmartListButtonClicked"/>
 
-        <Entry x:Name="AI_Prompt_Entry"
-               Grid.Row="3"
-               Grid.Column="0"
-               Grid.ColumnSpan="3"
-               Placeholder="Describe the recipe you want to create..." />
+        <!-- Recipe box: the card follows the Entry (the page shows/hides the Entry) and slides in when it appears -->
+        <Border Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Style="{StaticResource InputCard}">
+            <Border.Behaviors>
+                <ctrls:RevealBehavior />
+            </Border.Behaviors>
+            <Entry x:Name="AI_Prompt_Entry"
+                   VerticalOptions="Center"
+                   Placeholder="Describe the recipe you want to create..." />
+        </Border>
 
         <Button x:Name="Generate_Recipe_GO_Button"
                 Grid.Row="3"
@@ -58,7 +70,11 @@
                 Text="Go"
                 SemanticProperties.Hint="Initialize recipe generation"
                 HorizontalOptions="Fill"
-                Clicked="OnGoButtonClicked" />
+                Clicked="OnGoButtonClicked">
+            <Button.Behaviors>
+                <ctrls:RevealBehavior />
+            </Button.Behaviors>
+        </Button>
 
         <CollectionView x:Name="Grocery_List_Collection_View"
                         Grid.Row="4"
@@ -72,92 +88,104 @@
 
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding Category_Name}"
-                           BackgroundColor="Goldenrod"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Padding="5" />
+                    <Grid Padding="0,14,0,2">
+                        <Border Style="{StaticResource CategoryPill}">
+                            <Label Text="{Binding Category_Name}"
+                                   Style="{StaticResource CategoryText}" />
+                        </Border>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView>
+                    <SwipeView BackgroundColor="Transparent">
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
-                                           Command="{Binding Recipe_Delete_Command}"
-                                           BackgroundColor="Red" />
+                                           Style="{StaticResource DeleteSwipe}"
+                                           Command="{Binding Recipe_Delete_Command}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Border Padding="3"
-                                Margin="0"
-                                BackgroundColor="{Binding BackColor}"
-                                Stroke="LightGray"
-                                StrokeThickness="1">
-                            <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto">
+                        <Border Style="{StaticResource RowCard}"
+                                Margin="0,8,0,0"
+                                Padding="4,6,8,6">
+                            <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto"
+                                  ColumnSpacing="6">
                                 <CheckBox Grid.Column="0"
                                           IsChecked="{Binding Is_Bought}"
                                           VerticalOptions="Center" />
                                 <Label Grid.Column="1"
                                        Text="{Binding UI_Name}"
                                        TextDecorations="{Binding Item_Decoration}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
+                                       FontFamily="NunitoBold"
+                                       FontSize="16"
+                                       LineBreakMode="WordWrap"
                                        VerticalOptions="Center">
+                                    <Label.Triggers>
+                                        <!-- Bought: fade the name a little (strikethrough already comes from Item_Decoration) -->
+                                        <DataTrigger TargetType="Label" Binding="{Binding Is_Bought}" Value="True">
+                                            <Setter Property="TextColor" Value="{StaticResource MutedText}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Tap_Command}" />
                                     </Label.GestureRecognizers>
                                 </Label>
 
-                                <Label Grid.Column="2"
-                                       Text="Quantity"
-                                       FontSize="10"
-                                       TextColor="Red"
-                                       HorizontalTextAlignment="Center"
-                                       Margin="0,0,0,5" />
+                                <!-- Quantity -->
+                                <Border Grid.Column="2" Style="{StaticResource Chip}">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Is_Bought}" Value="True">
+                                            <Setter Property="Opacity" Value="0.45" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <VerticalStackLayout Spacing="0">
+                                        <Label Text="Quantity" Style="{StaticResource ChipCaption}" />
+                                        <Picker Style="{StaticResource ChipPicker}"
+                                                ItemsSource="{Binding UI_Quantity}"
+                                                SelectedItem="{Binding Selected_Quantity}"
+                                                IsVisible="{Binding Picker_Visibility}"
+                                                IsEnabled="{Binding Pickers_Enabled}"
+                                                Title="Select" />
+                                    </VerticalStackLayout>
+                                </Border>
 
-                                <Picker Grid.Column="2"
-                                        ItemsSource="{Binding UI_Quantity}"
-                                        SelectedItem="{Binding Selected_Quantity}"
-                                        IsVisible="{Binding Picker_Visibility}"
-                                        IsEnabled="{Binding Pickers_Enabled}"
-                                        VerticalOptions="Center"
-                                        Title="Select"
-                                        Margin="0,5,0,0" />
+                                <!-- Size -->
+                                <Border Grid.Column="3" Style="{StaticResource Chip}">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Is_Bought}" Value="True">
+                                            <Setter Property="Opacity" Value="0.45" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <VerticalStackLayout Spacing="0">
+                                        <Label Text="Size" Style="{StaticResource ChipCaption}" />
+                                        <Picker Style="{StaticResource ChipPicker}"
+                                                ItemsSource="{Binding UI_Sizes}"
+                                                SelectedItem="{Binding Selected_Size}"
+                                                IsVisible="{Binding Picker_Visibility}"
+                                                IsEnabled="{Binding Pickers_Enabled}"
+                                                Title="Select" />
+                                    </VerticalStackLayout>
+                                </Border>
 
-                                <Label Grid.Column="3"
-                                       Text="Size"
-                                       FontSize="10"
-                                       TextColor="Red"
-                                       HorizontalTextAlignment="Center"
-                                       Margin="0,0,0,5" />
-
-                                <Picker Grid.Column="3"
-                                        ItemsSource="{Binding UI_Sizes}"
-                                        SelectedItem="{Binding Selected_Size}"
-                                        IsVisible="{Binding Picker_Visibility}"
-                                        IsEnabled="{Binding Pickers_Enabled}"
-                                        VerticalOptions="Center"
-                                        Title="Select"
-                                        Margin="0,5,0,0" />
-
-                                <Label Grid.Column="4"
-                                       Text="Quality"
-                                       FontSize="10"
-                                       TextColor="Red"
-                                       HorizontalTextAlignment="Center"
-                                       Margin="0,0,0,5" />
-
-                                <Picker Grid.Column="4"
-                                        ItemsSource="{Binding UI_Qualities}"
-                                        SelectedItem="{Binding Selected_Quality}"
-                                        IsVisible="{Binding Picker_Visibility}"
-                                        IsEnabled="{Binding Pickers_Enabled}"
-                                        VerticalOptions="Center"
-                                        HorizontalTextAlignment="Center"
-                                        Title="Select"
-                                        Margin="0,5,0,0" />
+                                <!-- Quality -->
+                                <Border Grid.Column="4" Style="{StaticResource Chip}">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Is_Bought}" Value="True">
+                                            <Setter Property="Opacity" Value="0.45" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <VerticalStackLayout Spacing="0">
+                                        <Label Text="Quality" Style="{StaticResource ChipCaption}" />
+                                        <Picker Style="{StaticResource ChipPicker}"
+                                                ItemsSource="{Binding UI_Qualities}"
+                                                SelectedItem="{Binding Selected_Quality}"
+                                                IsVisible="{Binding Picker_Visibility}"
+                                                IsEnabled="{Binding Pickers_Enabled}"
+                                                Title="Select" />
+                                    </VerticalStackLayout>
+                                </Border>
                             </Grid>
                         </Border>
                     </SwipeView>

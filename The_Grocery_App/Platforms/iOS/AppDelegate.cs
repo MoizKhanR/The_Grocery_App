@@ -1,7 +1,6 @@
 ﻿using Foundation;
 using AppTrackingTransparency;
 using UIKit;
-using Mscc.GenerativeAI.Types;
 
 namespace The_Grocery_App
 {

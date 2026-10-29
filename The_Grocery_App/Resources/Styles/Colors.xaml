@@ -5,12 +5,13 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <!-- Primary was the template purple - now Mama's green so every button, checkbox and accent matches -->
+    <Color x:Key="Primary">#2E8B57</Color>
+    <Color x:Key="PrimaryDark">#8FD1AE</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Secondary">#E3F2E8</Color>
+    <Color x:Key="SecondaryDarkText">#7FC49C</Color>
+    <Color x:Key="Tertiary">#1F6B42</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -42,13 +43,21 @@
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
-    <!-- Mama's Grocery brand palette (refined) -->
-    <Color x:Key="Cream">#F5F1E8</Color>
+    <!-- Mama's Grocery brand palette (1.0.5 polish) -->
+    <Color x:Key="Cream">#F5F5E8</Color>
     <Color x:Key="Surface">#FFFFFF</Color>
-    <Color x:Key="Hairline">#E7E2D6</Color>
-    <Color x:Key="HeaderGreen">#2F8F4E</Color>
-    <Color x:Key="ActionGreen">#34C759</Color>
-    <Color x:Key="ActionTeal">#30B0C7</Color>
+    <Color x:Key="Hairline">#E6E1D0</Color>
+    <Color x:Key="ChipFill">#F5F1E4</Color>
+    <Color x:Key="HeaderGreen">#2E8B57</Color>
+    <Color x:Key="ActionGreen">#27A74F</Color>
+    <Color x:Key="ActionTeal">#1F9CB5</Color>
     <Color x:Key="GoldPro">#F4B400</Color>
-    <Color x:Key="InkText">#1C2024</Color>
+    <Color x:Key="CategoryGold">#E4AE2F</Color>
+    <Color x:Key="CategoryGoldDeep">#D49A1C</Color>
+    <Color x:Key="CategoryInk">#3B2A05</Color>
+    <Color x:Key="ChipCaption">#A57A16</Color>
+    <Color x:Key="InkText">#1E2A20</Color>
+    <Color x:Key="MutedText">#8A9086</Color>
+    <Color x:Key="PlaceholderText">#A6AB9F</Color>
+    <Color x:Key="DangerRed">#E5484D</Color>
 </ResourceDictionary>

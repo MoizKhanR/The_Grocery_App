@@ -1,7 +1,7 @@
 namespace The_Grocery_App;
-using Mscc.GenerativeAI;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
@@ -10,6 +10,15 @@ using System.Xml.Linq;
 [QueryProperty(nameof(Item_Category), "ItemCategory")]
 public partial class RecipePage : ContentPage, INotifyPropertyChanged
 {
+    //One HttpClient for the whole app (45 seconds, same as the old Gemini timeout)
+    static readonly HttpClient Proxy_Http = new HttpClient { Timeout = TimeSpan.FromSeconds(45) };
+
+    //What the proxy sends back
+    class Proxy_Recipe_Reply
+    {
+        public List<RecipeItem>? items { get; set; }
+    }
+
     private string _item_Category = string.Empty;
     public string? Page_Name { get; set; } = Global.Selected_Recipe_List;
     public string Item_Category
@@ -86,36 +95,6 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    //BASIC API TESTING CODE
-    //private async void OnGoButtonClicked(object sender, EventArgs e)
-    //{
-    //    string The_Prompt = AI_Prompt_Entry.Text;
-
-    //    //Null check
-
-    //    if (string.IsNullOrWhiteSpace(The_Prompt))
-    //    {
-    //        return;
-    //    }
-
-    //    try
-    //    {
-    //        await DisplayAlertAsync("Step 1", "About to create AI client", "OK");
-
-    //        var Google_AI = new GoogleAI(apiKey: "AQ.Ab8RN6IvfGg5mXPYhLUCAcq0DynfD5Lo0EgX34fHVqfoPUhgBw"); //The API
-    //        var The_Model = Google_AI.GenerativeModel(model: "gemini-2.5-flash"); //The Model to be used
-
-    //        await DisplayAlertAsync("Step 2", "About to call Gemini", "OK");
-    //        var The_Response = await The_Model.GenerateContent(prompt: The_Prompt); //The Response from the API
-
-    //        await DisplayAlertAsync("Step 3", $"Got response: {The_Response?.Text}", "OK");
-    //    }
-    //    catch (Exception Ex)
-    //    {
-    //        await DisplayAlertAsync("Error", Ex.Message, "OK");
-    //    }
-    //}
-
     private void OnGenerateSmartListButtonClicked(object sender, EventArgs e)
     {
         Generate_Recipe_GO_Button.IsVisible = true;
@@ -162,48 +141,52 @@ public partial class RecipePage : ContentPage, INotifyPropertyChanged
 
         try
         {
-            // Build the prompt with catalog context
+            //Ask OUR proxy (Cloudflare Worker) - it holds the Gemini key + the prompt, the app only sends the dish + the catalog
             string The_Catalog_String = BuildCatalogPrompt();
-            string The_Prompt = $@"You are a grocery list assistant. 
-                                The user wants to cook: {User_Prompt}
 
-                                Here is my grocery catalog grouped by category:
-                                {The_Catalog_String}
+            string Request_JSON = JsonSerializer.Serialize(new
+            {
+                recipe = User_Prompt,
+                catalog = The_Catalog_String,
+                device = Global.Device_Id
+            });
 
-                                Return ONLY a JSON array of ingredients needed. Each item must have ""name"" and ""category"" 
-                                matching EXACTLY from the catalog above. If an ingredient isn't in the catalog, 
-                                use the closest match or skip it but search the catalog thoroughly. For example, if the user says 
-                                ""chicken breast"" and the catalog has ""chicken breasts"", you should match it. If the user says 
-                                ""yogurt"" and the catalog has ""yogurt"" you should match it, but if the catalog only has ""milk"" 
-                                you should skip it. if the user asks for a specific type of burger that has shaami kabab in it,
-                                and the catalog has shaami kabab, you should include it. Don't add ""Chicken Breast"" because that
-                                isn't in the catalog, but do add ""shaami kabab"" if the user asks for a burger that contains it, 
-                                because it is in the catalog. Do NOT entertain any requests that aren't directly related to cooking or the grocery list.
-                                get the ingredients for the recipe as accurately as possible based on the catalog.
+            using var The_Request = new HttpRequestMessage(HttpMethod.Post, Global.Proxy_Url)
+            {
+                Content = new StringContent(Request_JSON, Encoding.UTF8, "application/json")
+            };
+            The_Request.Headers.Add("X-App-Token", Secrets.App_Token);
 
-                                Return ONLY valid JSON, no markdown, no backticks, no explanation. Example format:
-                                [{{""name"":""Chicken Breast"",""category"":""Poultry""}},{{""name"":""Yogurt"",""category"":""Dairy""}}]";
+            HttpResponseMessage The_Response;
 
-            // Call Gemini
-            var Google_AI = new GoogleAI(apiKey: Secrets.Gemini_API_Key);
-            var The_Model = Google_AI.GenerativeModel(model: "gemini-2.5-flash");
-
-            var API_Task = The_Model.GenerateContent(The_Prompt);
-            var Timeout_Task = Task.Delay(45000);
-
-            if (await Task.WhenAny(API_Task, Timeout_Task) == Timeout_Task)
+            try
+            {
+                The_Response = await Proxy_Http.SendAsync(The_Request);
+            }
+            catch (TaskCanceledException)
             {
                 await DisplayAlertAsync("Timeout", "AI didn't respond. Try again in a moment.", "OK");
                 return;
             }
 
-            var The_Response = await API_Task;
-            string JSON = (The_Response?.Text ?? string.Empty).Trim();
+            //429 = daily limit reached, 503 = Gemini is overloaded right now
+            if (The_Response.StatusCode == HttpStatusCode.TooManyRequests || The_Response.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                await DisplayAlertAsync("Kitchen's busy", "Our AI chef is swamped right now. Try again in a little while, or add items manually.", "OK");
+                return;
+            }
 
-            // Strip markdown code fences if Gemini adds them
-            JSON = JSON.Replace("```json", "").Replace("```", "").Trim();
+            if (!The_Response.IsSuccessStatusCode)
+            {
+                await DisplayAlertAsync("Hmm", "Couldn't build the list right now. Check your internet and try again.", "OK");
+                return;
+            }
 
-            var Recipe_Items = JsonSerializer.Deserialize<List<RecipeItem>>(JSON);
+            string JSON = (await The_Response.Content.ReadAsStringAsync()).Trim();
+
+            //The proxy answers { "items": [ { "name": "...", "category": "..." } ] }
+            var Proxy_Reply = JsonSerializer.Deserialize<Proxy_Recipe_Reply>(JSON);
+            var Recipe_Items = Proxy_Reply?.items;
 
             if (Recipe_Items == null || Recipe_Items.Count == 0)
             {

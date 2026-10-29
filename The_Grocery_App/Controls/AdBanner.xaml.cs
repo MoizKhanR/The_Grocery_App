@@ -6,6 +6,13 @@ public partial class AdBanner : ContentView
 	{
 		InitializeComponent();
 
+        //Real banner IDs per platform (set here - OnPlatform inside the ad control's XAML breaks the build)
+#if ANDROID
+        Banner.AdsId = "ca-app-pub-3337756787254419/9049320629";
+#elif IOS
+        Banner.AdsId = "ca-app-pub-3337756787254419/4827080567";
+#endif
+
         Loaded += On_Loaded;
         Unloaded += On_Unloaded;
     }
@@ -25,6 +32,11 @@ public partial class AdBanner : ContentView
     void Apply_Premium_State()
     {
         bool Show_Ads = !Global.Is_Premium;
+
+#if SCREENSHOTS
+        Show_Ads = false; //Store screenshot builds only (-p:Screenshots=true). Release builds never set this.
+#endif
+
         IsVisible = Show_Ads;
 
         if (Show_Ads)

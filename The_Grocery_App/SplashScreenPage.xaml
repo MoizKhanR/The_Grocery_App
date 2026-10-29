@@ -6,8 +6,9 @@
              Shell.NavBarIsVisible="False">
 
 
-    <Image Source="splash.png"
-               Aspect="AspectFill"/>
+    <Image x:Name="Splash_Image"
+           Source="splash.png"
+           Aspect="AspectFill"/>
 
 
 </ContentPage>

@@ -4,47 +4,81 @@
              x:Class="The_Grocery_App.Controls.ProBanner">
 
     <Border x:Name="Banner_Border"
-            StrokeShape="RoundRectangle 8"
+            StrokeShape="RoundRectangle 14"
             StrokeThickness="1"
-            Stroke="#B8860B"
-            Padding="12,8"
+            Stroke="#C9971C"
+            Padding="0"
             Margin="0">
 
         <Border.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                <GradientStop Color="#FFD86E" Offset="0.0" />
-                <GradientStop Color="#F4B400" Offset="0.5" />
-                <GradientStop Color="#D49000" Offset="1.0" />
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFE08A" Offset="0.0" />
+                <GradientStop Color="#F6BE2C" Offset="0.55" />
+                <GradientStop Color="#DE9E12" Offset="1.0" />
             </LinearGradientBrush>
         </Border.Background>
 
         <Border.Shadow>
-            <Shadow Brush="Black" Opacity="0.35" Radius="6" Offset="0,2" />
+            <Shadow Brush="#8A6100" Opacity="0.28" Radius="10" Offset="0,3" />
         </Border.Shadow>
 
         <Border.GestureRecognizers>
             <TapGestureRecognizer Tapped="On_Banner_Tapped" />
         </Border.GestureRecognizers>
 
-        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8">
-            <Label Grid.Column="0"
-                   Text="👑"
-                   FontSize="18"
-                   VerticalOptions="Center" />
+        <Grid>
+            <Grid ColumnDefinitions="Auto, *, Auto"
+                  ColumnSpacing="10"
+                  Padding="14,10">
+                <Label x:Name="Crown_Label"
+                       Grid.Column="0"
+                       Text="👑"
+                       FontSize="20"
+                       VerticalOptions="Center" />
 
-            <Label Grid.Column="1"
-                   Text="Unlock PRO - Remove Ads &amp; Unlimited Recipes"
-                   TextColor="#3D2A00"
-                   FontSize="14"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="0"
+                                     VerticalOptions="Center">
+                    <Label Text="Unlock PRO"
+                           TextColor="#3B2A05"
+                           FontFamily="NunitoExtraBold"
+                           FontSize="15" />
+                    <Label Text="Remove Ads &amp; Unlimited Recipes"
+                           TextColor="#5C4207"
+                           FontFamily="NunitoSemiBold"
+                           FontSize="12" />
+                </VerticalStackLayout>
 
-            <Label Grid.Column="2"
-                   Text="→"
-                   TextColor="#3D2A00"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0"
+                        BackgroundColor="#3B2A05"
+                        Padding="10,4"
+                        VerticalOptions="Center">
+                    <Label Text="GO PRO"
+                           TextColor="#FFE08A"
+                           FontFamily="NunitoExtraBold"
+                           FontSize="11"
+                           CharacterSpacing="0.8" />
+                </Border>
+            </Grid>
+
+            <!-- One soft shine sweep across the banner when it appears -->
+            <BoxView x:Name="Shine"
+                     InputTransparent="True"
+                     WidthRequest="70"
+                     HorizontalOptions="Start"
+                     Rotation="18"
+                     Margin="0,-20"
+                     Opacity="0">
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#00FFFFFF" Offset="0.0" />
+                        <GradientStop Color="#99FFFFFF" Offset="0.5" />
+                        <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
         </Grid>
     </Border>
 </ContentView>

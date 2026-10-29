@@ -7,29 +7,38 @@
              BackgroundColor="#F5F5E8">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="?" Clicked="OnHelpClicked" />
+        <ToolbarItem IconImageSource="help.png" Clicked="OnHelpClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, Auto, Auto, *"
           ColumnDefinitions="*, Auto"
           RowSpacing="10"
           ColumnSpacing="10"
-          Padding="10">
+          Padding="14,10,14,10">
+
+        <!-- Whole page glides in -->
+        <Grid.Behaviors>
+            <ctrls:FadeInBehavior Duration="280" Offset="10" />
+        </Grid.Behaviors>
 
         <!-- PRO Banner (auto-hides when Is_Premium is true) -->
         <ctrls:ProBanner Grid.Row="0"
                          Grid.Column="0"
                          Grid.ColumnSpan="2"
-                         Margin="0,0,0,4" />
+                         Margin="0,0,0,2" />
 
-        <SearchBar x:Name="Items_Search_Bar"
-                   Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   Text="Search Items..."
-                   Focused="SearchBarEngine"
-                   TextChanged="SearchBar_TextChanged"
-                   SearchButtonPressed="OnSearchBarSubmitted" />
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource InputCard}"
+                Padding="4,0">
+            <SearchBar x:Name="Items_Search_Bar"
+                       Placeholder="Search 2,500+ items..."
+                       VerticalOptions="Center"
+                       Focused="SearchBarEngine"
+                       TextChanged="SearchBar_TextChanged"
+                       SearchButtonPressed="OnSearchBarSubmitted" />
+        </Border>
 
         <CollectionView x:Name="Added_Items_Collection_View"
                         Grid.Row="2"
@@ -37,26 +46,48 @@
                         Grid.ColumnSpan="2"
                         ItemsSource="{Binding Searched_Results}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="1" Orientation="Vertical" />
+                <GridItemsLayout Span="1" Orientation="Vertical" VerticalItemSpacing="8" />
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="3"
-                            Margin="0"
-                            BackgroundColor="{Binding BackColor}"
-                            Stroke="LightGray"
-                            StrokeThickness="1">
-                        <Grid ColumnDefinitions="*, Auto, Auto">
+                    <Border Style="{StaticResource RowCard}">
+                        <Grid ColumnDefinitions="*, Auto, Auto"
+                              ColumnSpacing="10"
+                              Padding="16,12,12,12">
+                            <!-- Tap anywhere on the row to add it -->
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddItem_Tap_Command}" />
+                            </Grid.GestureRecognizers>
                             <Label Grid.Column="0"
                                    Text="{Binding UI_Name}"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   VerticalOptions="End">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding AddItem_Tap_Command}" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                   FontFamily="NunitoBold"
+                                   FontSize="17"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding Category_Name}"
+                                   FontFamily="NunitoSemiBold"
+                                   FontSize="12"
+                                   TextColor="{StaticResource MutedText}"
+                                   MaxLines="1"
+                                   LineBreakMode="TailTruncation"
+                                   MaximumWidthRequest="150"
+                                   VerticalOptions="Center" />
+                            <Border Grid.Column="2"
+                                    StrokeShape="RoundRectangle 14"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    WidthRequest="28"
+                                    HeightRequest="28"
+                                    VerticalOptions="Center">
+                                <Label Text="+"
+                                       FontFamily="NunitoExtraBold"
+                                       FontSize="18"
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,0,2" />
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
