@@ -12,7 +12,7 @@ namespace The_Grocery_App
         {
             base.OnCreate(Saved_Instance_State);
 
-            CrossMauiMTAdmob.Current.Init(this, "ca-app-pub-3940256099942544~3347511713");
+            CrossMauiMTAdmob.Current.Init(this, "ca-app-pub-3337756787254419~6164016845"); //Real Android App ID (matches AndroidManifest.xml)
         }
     }
 }

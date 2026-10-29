@@ -1,0 +1,6 @@
+<Project>
+  <!-- TEMP (Cortana): store screenshot mode, hides test ads. DELETE before the release build. -->
+  <PropertyGroup>
+    <Screenshots>true</Screenshots>
+  </PropertyGroup>
+</Project>
