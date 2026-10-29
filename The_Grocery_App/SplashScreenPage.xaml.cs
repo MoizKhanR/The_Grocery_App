@@ -26,7 +26,10 @@ public partial class SplashScreenPage : ContentPage
 
 		if(Application.Current?.Windows.Count > 0) 
 		{
-			Application.Current.Windows[0].Page = new AppShell();
+			//First launch (or first launch after this update): show the walkthrough, then the app
+			Application.Current.Windows[0].Page = OnboardingPage.Has_Been_Seen
+				? new AppShell()
+				: new OnboardingPage(First_Run: true);
         }
     }
 }

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Cortana: first-run walkthrough (also opened by the "?" button).
+    Five swipeable slides. Each illustration is built from the app's own styles,
+    so what users see here looks exactly like what they'll tap later.
+-->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             x:Class="The_Grocery_App.OnboardingPage"
+             ios:Page.UseSafeArea="True"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5E8">
+
+    <ContentPage.Resources>
+        <!-- Illustration "stage" the mock UI sits on -->
+        <Style TargetType="Border" x:Key="Stage">
+            <Setter Property="StrokeShape" Value="RoundRectangle 28" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stroke" Value="{StaticResource Hairline}" />
+            <Setter Property="BackgroundColor" Value="#FBFAF2" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="InputTransparent" Value="True" />
+            <Setter Property="Shadow">
+                <Shadow Brush="#2E8B57" Opacity="0.12" Radius="24" Offset="0,10" />
+            </Setter>
+        </Style>
+        <Style TargetType="Label" x:Key="Step">
+            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="CharacterSpacing" Value="1.6" />
+            <Setter Property="TextColor" Value="{StaticResource Primary}" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Label" x:Key="OB_Title">
+            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="TextColor" Value="{StaticResource InkText}" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Label" x:Key="Body">
+            <Setter Property="FontFamily" Value="NunitoSemiBold" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="LineHeight" Value="1.25" />
+            <Setter Property="TextColor" Value="{StaticResource MutedText}" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+        <!-- Small fake controls used inside the illustrations -->
+        <Style TargetType="Label" x:Key="MockText">
+            <Setter Property="FontFamily" Value="NunitoBold" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="TextColor" Value="{StaticResource InkText}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Border" x:Key="MockButton">
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="HeightRequest" Value="42" />
+        </Style>
+        <Style TargetType="Label" x:Key="MockButtonText">
+            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *, Auto, Auto"
+          Padding="24,12,24,24"
+          RowSpacing="18">
+
+        <!-- Top bar: brand + Skip -->
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" HeightRequest="44">
+            <Label Text="Mama's Grocery"
+                   FontFamily="NunitoExtraBold"
+                   FontSize="17"
+                   TextColor="{StaticResource Primary}"
+                   VerticalOptions="Center" />
+            <Label x:Name="Skip_Label"
+                   Grid.Column="1"
+                   Text="Skip"
+                   FontFamily="NunitoBold"
+                   FontSize="16"
+                   TextColor="{StaticResource MutedText}"
+                   Padding="12,8"
+                   VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="On_Skip_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <!-- Slides (stacked; only one visible at a time) -->
+        <Grid x:Name="Slides_Host" Grid.Row="1" BackgroundColor="Transparent">
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Left" Swiped="On_Swiped_Left" />
+                <SwipeGestureRecognizer Direction="Right" Swiped="On_Swiped_Right" />
+            </Grid.GestureRecognizers>
+
+            <!-- 1. Welcome -->
+            <Grid x:Name="Slide_0" RowDefinitions="*, Auto" RowSpacing="22">
+                <Image x:Name="Stage_0"
+                       Source="onboarding_basket.png"
+                       HeightRequest="230"
+                       Aspect="AspectFit"
+                       VerticalOptions="Center"
+                       InputTransparent="True" />
+                <VerticalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Style="{StaticResource Step}" Text="WELCOME" />
+                    <Label Style="{StaticResource OB_Title}" Text="Groceries, sorted." />
+                    <Label Style="{StaticResource Body}" Text="Shopping lists and recipes in one tidy place. Here's the 30-second tour." />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- 2. Make a list -->
+            <Grid x:Name="Slide_1" RowDefinitions="*, Auto" RowSpacing="22" IsVisible="False">
+                <Border x:Name="Stage_1" Style="{StaticResource Stage}">
+                    <VerticalStackLayout Spacing="9">
+                        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="8">
+                            <Border Style="{StaticResource InputCard}" MinimumHeightRequest="42">
+                                <Label Style="{StaticResource MockText}" Text="Weekly Groceries" />
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource MockButton}" BackgroundColor="{StaticResource HeaderGreen}">
+                                <Label Style="{StaticResource MockButtonText}" Text="Add" />
+                            </Border>
+                        </Grid>
+                        <Border Style="{StaticResource RowCard}" BackgroundColor="{StaticResource HeaderGreen}" Stroke="{StaticResource HeaderGreen}" Padding="14,9">
+                            <Label Text="Shopping Lists" FontFamily="NunitoExtraBold" FontSize="15" TextColor="White" />
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,10">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Style="{StaticResource MockText}" Text="Weekly Groceries" />
+                                <Label Grid.Column="1" Text="&#x203A;" FontSize="20" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" BackgroundColor="{StaticResource HeaderGreen}" Stroke="{StaticResource HeaderGreen}" Padding="14,9">
+                            <Label Text="Recipes" FontFamily="NunitoExtraBold" FontSize="15" TextColor="White" />
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,10">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Style="{StaticResource MockText}" Text="Taco Tuesday" />
+                                <Label Grid.Column="1" Text="&#x203A;" FontSize="20" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+                <VerticalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Style="{StaticResource Step}" Text="STEP 1 OF 4" />
+                    <Label Style="{StaticResource OB_Title}" Text="Start a list" />
+                    <Label Style="{StaticResource Body}" Text="Type a name on Home, tap Add, then pick Shopping List or Recipe." />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- 3. Add items -->
+            <Grid x:Name="Slide_2" RowDefinitions="*, Auto" RowSpacing="22" IsVisible="False">
+                <Border x:Name="Stage_2" Style="{StaticResource Stage}">
+                    <VerticalStackLayout Spacing="9">
+                        <Border Style="{StaticResource InputCard}" MinimumHeightRequest="42">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="&#x1F50D;" FontSize="14" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                                <Label Style="{StaticResource MockText}" Text="chick" />
+                            </HorizontalStackLayout>
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,9">
+                            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="8">
+                                <Label Style="{StaticResource MockText}" Text="Chicken Breast" />
+                                <Label Grid.Column="1" Text="Meat &amp; Seafood" FontFamily="NunitoSemiBold" FontSize="11" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                                <Border Grid.Column="2" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" WidthRequest="26" HeightRequest="26">
+                                    <Label Text="+" FontFamily="NunitoExtraBold" FontSize="17" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,2" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,9">
+                            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="8">
+                                <Label Style="{StaticResource MockText}" Text="Chicken Thigh" />
+                                <Label Grid.Column="1" Text="Meat &amp; Seafood" FontFamily="NunitoSemiBold" FontSize="11" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                                <Border Grid.Column="2" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" WidthRequest="26" HeightRequest="26">
+                                    <Label Text="+" FontFamily="NunitoExtraBold" FontSize="17" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,2" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,9">
+                            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="8">
+                                <Label Style="{StaticResource MockText}" Text="Chicken Stock" />
+                                <Label Grid.Column="1" Text="Pantry" FontFamily="NunitoSemiBold" FontSize="11" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                                <Border Grid.Column="2" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" WidthRequest="26" HeightRequest="26">
+                                    <Label Text="+" FontFamily="NunitoExtraBold" FontSize="17" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,2" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+                <VerticalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Style="{StaticResource Step}" Text="STEP 2 OF 4" />
+                    <Label Style="{StaticResource OB_Title}" Text="Add anything in seconds" />
+                    <Label Style="{StaticResource Body}" Text="In a list, tap Add Something... and search 2,500+ items. Can't find it? Type it and hit Return." />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- 4. Smart Lists (AI) -->
+            <Grid x:Name="Slide_3" RowDefinitions="*, Auto" RowSpacing="22" IsVisible="False">
+                <Border x:Name="Stage_3" Style="{StaticResource Stage}">
+                    <VerticalStackLayout Spacing="9">
+                        <Border Style="{StaticResource MockButton}" BackgroundColor="{StaticResource ActionTeal}">
+                            <Label Style="{StaticResource MockButtonText}" Text="Generate Smart List" />
+                        </Border>
+                        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="8">
+                            <Border Style="{StaticResource InputCard}" MinimumHeightRequest="42">
+                                <Label Style="{StaticResource MockText}" Text="Chicken biryani for 4" />
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource MockButton}" BackgroundColor="{StaticResource HeaderGreen}">
+                                <Label Style="{StaticResource MockButtonText}" Text="Go" />
+                            </Border>
+                        </Grid>
+                        <Border Style="{StaticResource CategoryPill}" Margin="0,4,0,0">
+                            <Label Style="{StaticResource CategoryText}" Text="Produce" />
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,10">
+                            <Label Style="{StaticResource MockText}" Text="&#x2728;  Onion, Garlic, Ginger" />
+                        </Border>
+                        <Border Style="{StaticResource CategoryPill}">
+                            <Label Style="{StaticResource CategoryText}" Text="Meat and Seafood" />
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="14,10">
+                            <Label Style="{StaticResource MockText}" Text="&#x2728;  Chicken Thigh" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+                <VerticalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Style="{StaticResource Step}" Text="STEP 3 OF 4  &#xB7;  AI SMART LISTS" />
+                    <Label Style="{StaticResource OB_Title}" Text="Name a dish, get the list" />
+                    <Label Style="{StaticResource Body}" Text="Open a recipe, tap Generate Smart List, describe the dish and tap Go. 3 free a day, unlimited with PRO." />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- 5. Shop + tick + swipe -->
+            <Grid x:Name="Slide_4" RowDefinitions="*, Auto" RowSpacing="22" IsVisible="False">
+                <Border x:Name="Stage_4" Style="{StaticResource Stage}">
+                    <VerticalStackLayout Spacing="9">
+                        <Border Style="{StaticResource CategoryPill}">
+                            <Label Style="{StaticResource CategoryText}" Text="Dairy and Eggs" />
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="12,8">
+                            <Grid ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="8">
+                                <Border StrokeShape="RoundRectangle 5" Stroke="{StaticResource Primary}" StrokeThickness="2" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Style="{StaticResource MockText}" Text="Eggs" />
+                                <Border Grid.Column="2" Style="{StaticResource Chip}">
+                                    <VerticalStackLayout>
+                                        <Label Style="{StaticResource ChipCaption}" Text="Qty" />
+                                        <Label Text="2" FontFamily="NunitoBold" FontSize="13" TextColor="{StaticResource InkText}" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border Grid.Column="3" Style="{StaticResource Chip}">
+                                    <VerticalStackLayout>
+                                        <Label Style="{StaticResource ChipCaption}" Text="Size" />
+                                        <Label Text="12 Pack" FontFamily="NunitoBold" FontSize="13" TextColor="{StaticResource InkText}" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource RowCard}" Padding="12,12">
+                            <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                                <Border StrokeShape="RoundRectangle 5" StrokeThickness="0" BackgroundColor="{StaticResource Primary}" WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
+                                    <Label Text="&#x2713;" FontFamily="NunitoExtraBold" FontSize="13" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Style="{StaticResource MockText}" Text="Whole Milk" TextDecorations="Strikethrough" TextColor="{StaticResource MutedText}" />
+                            </Grid>
+                        </Border>
+                        <!-- Swipe-to-delete hint -->
+                        <Grid ColumnDefinitions="*, 92">
+                            <Border Grid.ColumnSpan="2" StrokeShape="RoundRectangle 14" StrokeThickness="0" BackgroundColor="{StaticResource DangerRed}" />
+                            <Label Grid.Column="1" Text="Delete" FontFamily="NunitoExtraBold" FontSize="14" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Border Style="{StaticResource RowCard}" Padding="14,12">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Style="{StaticResource MockText}" Text="Butter" />
+                                    <Label Grid.Column="1" Text="&#x2190; swipe" FontFamily="NunitoBold" FontSize="12" TextColor="{StaticResource MutedText}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                <VerticalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Style="{StaticResource Step}" Text="STEP 4 OF 4" />
+                    <Label Style="{StaticResource OB_Title}" Text="Shop and tick it off" />
+                    <Label Style="{StaticResource Body}" Text="Set quantity, size and quality, tick items as they hit the cart, and swipe left to delete." />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+
+        <!-- Page dots -->
+        <HorizontalStackLayout x:Name="Dots_Host"
+                               Grid.Row="2"
+                               Spacing="8"
+                               HorizontalOptions="Center"
+                               HeightRequest="10" />
+
+        <!-- Next / Let's go -->
+        <Button x:Name="Next_Button"
+                Grid.Row="3"
+                Text="Next"
+                Background="{StaticResource HeaderGreen}"
+                HeightRequest="54"
+                FontSize="17"
+                Clicked="On_Next_Clicked" />
+    </Grid>
+</ContentPage>
